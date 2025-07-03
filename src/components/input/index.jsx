@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const Input = ({ icon, label, ...props }) => {
+const Input = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -10,14 +10,14 @@ const Input = ({ icon, label, ...props }) => {
       {(icon || label) && (
         <div className="flex items-center gap-[4px]">
           {icon && (
-            <span className={!isFocus ? "text-[#AAAAAA]" : "text-[#2996E8]"}>
+            <span className={!isFocus ? !hasError ? "text-[#AAAAAA]" : "text-[#FF0000]" : "text-[#2996E8]"}>
               {icon}
             </span>
           )}
           {label && (
             <label
               className={`font-[500] text-[16px] ${
-                !isFocus ? "text-[#AAAAAA]" : "text-[#2996E8]"
+                !isFocus ? !hasError ? "text-[#AAAAAA]" : "text-[#FF0000]" : "text-[#2996E8]"
               }`}
             >
               {label}
@@ -39,7 +39,7 @@ const Input = ({ icon, label, ...props }) => {
             onBlur(e);
           }
         }}
-        className="w-full h-[48px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] px-[12px] font-[500] text-[#2E353A]"
+        className={`w-full h-[48px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] px-[12px] font-[500] text-[#2E353A] ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
       />
     </div>
   );

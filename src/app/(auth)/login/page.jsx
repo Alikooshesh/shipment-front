@@ -5,10 +5,29 @@ import Input from "@/components/input";
 import Toggle from "@/components/toggle";
 import { Login, PasswordCheck, UserOctagon } from "iconsax-reactjs";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
   const [isToggleActive, setIsToggleActive] = useState(false);
+
+  const [hasError , setHasError] = useState(false)
+
+  const [formData , setFormData] = useState({
+    userName : "",
+    password : ""
+  })
+
+  function submitForm(e){
+    e.preventDefault()
+    if(!hasError){
+        setHasError(true)
+    }
+  }
+
+  useEffect(()=>{
+    setHasError(false)
+  },[formData])
+
   return (
     <div className="w-screen h-screen flex items-center">
       <div className="flex-1 h-full flex items-center justify-center px-[16px]">
@@ -19,10 +38,10 @@ const LoginPage = () => {
                 <p className="font-[700] text-[32px] text-[#2996E8] mb-[8px]">KHAREEF MARITIME</p>
                 <p className="font-[500] text-[#2996E8] text-[20px]">EXPRESS SHIPPING</p>
             </div>
-          <form className="w-full">
+          <form className="w-full" onSubmit={submitForm}>
             <div className="flex flex-col gap-[24px] mb-[16px]">
-              <Input icon={<UserOctagon size={24} />} label={"User Name :"} />
-              <Input icon={<PasswordCheck size={24} />} label={"Password :"} />
+              <Input value={formData.userName} onChange={(e)=> setFormData({...formData , userName:e.target.value})} icon={<UserOctagon size={24} />} label={"User Name :"} hasError={hasError}/>
+              <Input value={formData.password} onChange={(e)=> setFormData({...formData , password:e.target.value})} type="password" icon={<PasswordCheck size={24} />} label={"Password :"} hasError={hasError}/>
             </div>
             <Link href={"/forget"} className="block mb-[24px]">
               <span className="text-[#2996E8]">Forget password ?</span>
@@ -32,7 +51,7 @@ const LoginPage = () => {
               isActive={isToggleActive}
               setIsActive={setIsToggleActive}
             />
-            <Button className={"mt-[44px]"} icon={<Login size={24} />}>
+            <Button className={"mt-[44px]"} type="submit" icon={<Login size={24} />} disabled={!(formData.password && formData.userName)}>
               Log in
             </Button>
           </form>

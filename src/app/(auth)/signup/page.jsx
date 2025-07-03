@@ -5,10 +5,30 @@ import Input from "@/components/input";
 import Toggle from "@/components/toggle";
 import { CallIncoming, PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SignupPage = () => {
   const [isToggleActive, setIsToggleActive] = useState(false);
+
+  const [hasError , setHasError] = useState(false)
+
+  const [formData , setFormData] = useState({
+    userName : "",
+    password : "",
+    phoneNumber : ""
+  })
+
+  function submitForm(e){
+    e.preventDefault()
+    if(!hasError){
+        setHasError(true)
+    }
+  }
+
+  useEffect(()=>{
+    setHasError(false)
+  },[formData])
+
   return (
     <div className="w-screen h-screen flex items-center">
       <div className="flex-1 h-full flex items-center justify-center px-[16px]">
@@ -26,11 +46,17 @@ const SignupPage = () => {
                 EXPRESS SHIPPING
               </p>
             </div>
-            <form className="w-full">
+            <form className="w-full" onSubmit={submitForm}>
               <div className="flex flex-col gap-[24px] mb-[32px]">
-                <Input icon={<UserOctagon size={24} />} label={"User Name :"} />
-                <Input icon={<CallIncoming size={24} />} label={"Number :"} />
+                <Input value={formData.userName} onChange={(e)=> setFormData({...formData , userName:e.target.value})} icon={<UserOctagon size={24} />} label={"User Name :"} />
+                <Input value={formData.phoneNumber} onChange={(e)=> {
+                    if(!isNaN(e.target.value)){
+                        setFormData({...formData , phoneNumber:e.target.value})
+                    }
+                }} icon={<CallIncoming size={24} />} label={"Number :"} />
                 <Input
+                type="password"
+                value={formData.password} onChange={(e)=> setFormData({...formData , password:e.target.value})}
                   icon={<PasswordCheck size={24} />}
                   label={"Password :"}
                 />
@@ -40,7 +66,7 @@ const SignupPage = () => {
                 isActive={isToggleActive}
                 setIsActive={setIsToggleActive}
               />
-              <Button className={"mt-[60px]"} icon={<TickSquare size={24} />}>
+              <Button className={"mt-[60px]"} icon={<TickSquare size={24}/>} disabled={!(formData.password && formData.userName && formData.phoneNumber)}>
               Sign Up
               </Button>
             </form>
