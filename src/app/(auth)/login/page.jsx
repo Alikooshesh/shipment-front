@@ -12,7 +12,7 @@ const LoginPage = () => {
   return (
     <div className="w-screen h-screen flex items-center">
       <div className="flex-1 h-full flex items-center justify-center px-[16px]">
-        <div className="w-full h-screen py-[64px] overflow-y-auto">
+        <div className="w-full h-screen py-[64px] overflow-y-auto no-scrollbar">
         <div className="w-full max-w-[360px] mx-auto">
             <div className="flex flex-col items-center mb-[40px]">
                 <img className="w-[250px] h-auto mx-auto mb-[36px]" src="/images/login/logo.png"/>
