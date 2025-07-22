@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const Input = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
+const Textarea = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -25,7 +25,7 @@ const Input = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
           )}
         </div>
       )}
-      <input
+      <textarea
         {...props}
         onFocus={(e) => {
           setIsFocus(true);
@@ -39,10 +39,11 @@ const Input = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
             onBlur(e);
           }
         }}
-        className={`w-full h-[48px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
+        rows={4}
+        className={`w-full rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] resize-none ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
       />
     </div>
   );
 };
 
-export default Input;
+export default Textarea;
