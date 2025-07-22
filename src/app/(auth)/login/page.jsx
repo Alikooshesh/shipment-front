@@ -3,6 +3,8 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Toggle from "@/components/toggle";
+import { login } from "@/services/auth/login";
+import { createOptions, createUrl } from "@/utils/fetch";
 import { Login, PasswordCheck, UserOctagon } from "iconsax-reactjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,11 +19,13 @@ const LoginPage = () => {
     password : ""
   })
 
-  function submitForm(e){
-    e.preventDefault()
-    if(!hasError){
-        setHasError(true)
-    }
+  function submitForm(e) {
+    e.preventDefault();
+    if(hasError) return;
+    login({ ...formData })
+      .catch(() => {
+        setHasError(true);
+      });
   }
 
   useEffect(()=>{
@@ -51,7 +55,7 @@ const LoginPage = () => {
               isActive={isToggleActive}
               setIsActive={setIsToggleActive}
             />
-            <Button className={"mt-[44px]"} type="submit" icon={<Login size={24} />} disabled={!(formData.password && formData.userName)}>
+            <Button className={"mt-[44px]"} type="submit" icon={<Login size={24} />} disabled={!(formData.password && formData.userName) || hasError}>
               Log in
             </Button>
           </form>
