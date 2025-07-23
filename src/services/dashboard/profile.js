@@ -4,6 +4,7 @@ import { toastError } from "@/utils/toast";
 export const getProfile = async () => {
   const response = await fetch(
     createUrl("/users/me"),
+    createOptions({})
   );
 
   if (!response.ok) {
@@ -17,11 +18,11 @@ export const getProfile = async () => {
   return data;
 };
 
-export const updateProfile = async ({data}) => {
+export const updateProfile = async ({body}) => {
     const response = await fetch(
       createUrl("/users/me"),
       createOptions({
-        body : data,
+        body,
         method : "PUT",
       })
     );

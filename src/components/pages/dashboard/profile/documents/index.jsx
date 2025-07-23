@@ -1,23 +1,51 @@
 import Button from "@/components/button"
 import Textarea from "@/components/textArea"
+import { deleteDocument, getAllDocuments, updateDocument } from "@/services/dashboard/documents"
+import { getFileUrl } from "@/services/dashboard/file"
 import { ArchiveAdd, CloseCircle } from "iconsax-reactjs"
-
-const documents = [
-    {
-        id : 1,
-        name : "test",
-        image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW9h4fU35Nb2lGTCcT-GS1pVkWd5gqV0yegw&s",
-        isActive : true
-    },
-    {
-        id : 2,
-        name : "test2",
-        image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW9h4fU35Nb2lGTCcT-GS1pVkWd5gqV0yegw&s",
-        isActive : false
-    }
-]
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 const ProfileDocuments = ()=>{
+
+    const [documents , setDocuments] = useState([])
+
+    const getDocuments = async ()=>{
+        const documentList = await getAllDocuments()
+        setDocuments(documentList)
+    }
+
+    useEffect(()=>{
+        getDocuments()
+    },[])
+
+    const setActive = async (id,type)=>{
+        if(!id) return;
+        const temp = [...documents]
+        const active = temp.find(item => (item.isActive && item.type === type))?.id
+        if(active){
+            await updateDocument({id : active.id , body : {isActive : false}})
+        }
+        await updateDocument({id , body : {isActive : true}})
+        
+        setDocuments([...temp.map(item => {
+            if(item.id === active.id){
+                return ({...item , isActive : false})
+            }
+            if(item.id === id){
+                return ({...item , isActive : true})
+            }
+
+            return item
+        })])
+    }
+
+    const removeDocument = async (id)=>{
+        if(!id) return;
+        await deleteDocument({id})
+        setDocuments([...documents.filter(item => item.id !== id)])
+    }
+
     return(
         <div className="flex flex-col gap-[36px] px-[16px] w-full max-w-[378px] mx-auto my-[36px]">
             <div className="w-full flex flex-col gap-[12px]">
@@ -25,7 +53,7 @@ const ProfileDocuments = ()=>{
                 Preview Stamp
                 </p>
 
-                {documents.map(item => <DocumentCard key={item.id} {...item}/>)}
+                {documents.filter(item => item.docType === "stamp").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.type)} {...item}/>)}
             </div>
 
             <div className="w-full flex flex-col gap-[12px]">
@@ -33,7 +61,7 @@ const ProfileDocuments = ()=>{
                 Preview Signature 
                 </p>
 
-                {documents.map(item => <DocumentCard key={item.id} {...item}/>)}
+                {documents.filter(item => item.docType === "signature").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.type)} {...item}/>)}
             </div>
 
             <div className="w-full flex flex-col gap-[12px]">
@@ -44,24 +72,31 @@ const ProfileDocuments = ()=>{
                 <Textarea />
             </div>
 
+            <Link href="/dashboard/profile/document/add">
             <Button leftIcon color="green" className="mt-[48px]" icon={<ArchiveAdd size={24}/>}>
             Add Document
             </Button>
+            </Link>
         </div>
     )
 }
 
 export default ProfileDocuments
 
-const DocumentCard = ({id, type , image , name , isActive})=>{
+const DocumentCard = ({image , name , isActive, setActive , remove})=>{
+
     return(
-        <div className={`w-full h-[64px] flex items-center justify-between py-[12px] pl-[12px] pr-[16px] border-[2px] rounded-[8px] cursor-pointer ${isActive ? "border-[#38B000]" : "border-[#AAAAAA]"}`}>
+        <div className={`w-full h-[64px] flex items-center justify-between py-[12px] pl-[12px] pr-[16px] border-[2px] rounded-[8px] cursor-pointer ${isActive ? "border-[#38B000]" : "border-[#AAAAAA]"}`} onClick={setActive}>
             <div className="h-full flex items-center gap-[8px]">
-                <img src={image} className="h-full"/>
+                <img src={getFileUrl(image)} className="h-full"/>
                 <p className="font-[500] text-[16px] text-[#2E353A]">{name}</p>
             </div>
-            <span>
-                <CloseCircle size={20} color={isActive ? "#FF0000" : "#AAAAAA"}/>
+            <span onClick={()=>{
+                if(!isActive){
+                    remove()
+                }
+            }}>
+                <CloseCircle size={20} color={!isActive ? "#FF0000" : "#AAAAAA"}/>
             </span>
         </div>
     )
