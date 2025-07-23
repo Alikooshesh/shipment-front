@@ -43,7 +43,7 @@ const EditUser = ({params})=>{
             <h2 className="font-[600] text-center text-[24px] text-[#2E353A] mt-[20px] sm:mt-[42px]">Edit User</h2>
             <div className="flex flex-col gap-[36px] py-[48px] sm:py-[36px]">
                 <div className="w-[128px] h-[128px] mx-auto">
-                <ProfileInput profile={profileImage || profileImageUrl} setProfile={setProfileImage}/>
+                <ProfileInput profile={profileImage || profileImageUrl} setProfile={setProfileImage} setProfileImageUrl={setProfileImageUrl}/>
                 </div>
 
                 <form className="w-full max-w-[378px] mx-auto px-[16px] flex flex-col gap-[24px] mt-[36px]" onSubmit={onSubmit}>

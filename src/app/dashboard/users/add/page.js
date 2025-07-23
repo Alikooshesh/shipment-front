@@ -5,7 +5,7 @@ import Input from "@/components/input"
 import ProfileInput from "@/components/profileInput"
 import { createNewUser } from "@/services/dashboard/users"
 import { PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const AddUser = ()=>{
 
@@ -32,7 +32,7 @@ const AddUser = ()=>{
             <h2 className="font-[600] text-center text-[24px] text-[#2E353A] mt-[20px] sm:mt-[42px]">Add New User</h2>
             <div className="flex flex-col gap-[36px] py-[48px] sm:py-[36px]">
                 <div className="w-[128px] h-[128px] mx-auto">
-                <ProfileInput profile={profile} setProfile={setProfile}/>
+                <ProfileInput profile={profile} setProfile={setProfile} setProfileImageUrl={setProfileImageUrl}/>
                 </div>
 
                 <form className="w-full max-w-[378px] mx-auto px-[16px] flex flex-col gap-[24px] mt-[36px]" onSubmit={onSubmit}>

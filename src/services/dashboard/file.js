@@ -5,8 +5,11 @@ export const uploadImage = async ({ file }) => {
   const fd = new FormData();
 
   fd.append("image", file);
-    const ops = createOptions({})
-  const response = await fetch(createUrl("/users/login"), {...ops , body : fd});
+    const ops = createOptions({
+        method : "POST",
+        shouldSetContentType : false
+    })
+  const response = await fetch(createUrl("/files/upload"), {...ops , body : fd});
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -21,5 +24,5 @@ export const uploadImage = async ({ file }) => {
 
 
 export const getFileUrl = (address)=>{
-    return process.env.NEXT_PUBLIC_BASE_API + "/assets/uploads/" + address
+    return process.env.NEXT_PUBLIC_BASE_ASSETS + address
 }

@@ -1,7 +1,22 @@
-import { getFileUrl } from "@/services/dashboard/file"
+import { getFileUrl, uploadImage } from "@/services/dashboard/file"
 import { GalleryAdd } from "iconsax-reactjs"
+import { useEffect, useState } from "react"
 
-const ProfileInput = ({profile , setProfile , disabled})=>{
+const ProfileInput = ({profile , setProfile, setProfileImageUrl , disabled})=>{
+
+    const [loading , setLoading] = useState(false)
+
+    const upload = async ()=>{
+        const url = await uploadImage({file : profile})
+        setProfileImageUrl(url)
+    }
+
+    useEffect(()=>{
+        if(profile && typeof profile !== "string"){
+            upload()
+        }
+    },[profile])
+
     return(
         <label className="w-full h-full rounded-full overflow-hidden relative">
             {profile ? 
@@ -10,7 +25,7 @@ const ProfileInput = ({profile , setProfile , disabled})=>{
                     <GalleryAdd size={32} color="#6B7BFF"/>
                 </div>
             }
-            <input type="file" disabled={disabled} onChange={(e)=> setProfile(e.target.files[0])} className="absolute top-0 left-0 z-1 w-full h-full opacity-0"/>
+            <input type="file" disabled={disabled || loading} onChange={(e)=> setProfile(e.target.files[0])} className="absolute top-0 left-0 z-1 w-full h-full opacity-0"/>
         </label>
     )
 }
