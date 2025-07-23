@@ -1,31 +1,55 @@
+"use client";
+
 import { Back, Home2 } from "iconsax-reactjs";
 import HeaderNav from "./headerNav";
 import Link from "next/link";
-
-const navList = [
-  {
-    name: "Dashboard",
-    url: "/dashboard",
-    icon: <Home2 size={24} />,
-  },
-  {
-    name: `Add new B/L`,
-    url: "/dashboard/bl/add",
-    icon: <Home2 size={24} />,
-  },
-  {
-    name: "Ship Tracker",
-    url: "/ship",
-    icon: <Home2 size={24} />,
-  },
-  {
-    name: "Users",
-    url: "/dashboard/users",
-    icon: <Home2 size={24} />,
-  },
-];
+import { useEffect, useState } from "react";
+import { getToken, getUserRank } from "@/utils/token";
+import { redirect } from "next/navigation";
 
 const DashboardLayout = ({ children }) => {
+  const [navList, setNavList] = useState([
+    {
+      name: "Dashboard",
+      url: "/dashboard",
+      icon: <Home2 size={24} />,
+    },
+    {
+      name: `Add new B/L`,
+      url: "/dashboard/bl/add",
+      icon: <Home2 size={24} />,
+    },
+    {
+      name: "Ship Tracker",
+      url: "/ship",
+      icon: <Home2 size={24} />,
+    }
+  ]);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const t = await getToken();
+      if (!t) {
+        redirect("/login");
+      } else {
+        const isAdmin = await getUserRank();
+        if (isAdmin) {
+          setNavList([
+            ...navList,
+
+            {
+              name: "Users",
+              url: "/dashboard/users",
+              icon: <Home2 size={24} />,
+            },
+          ]);
+        }
+      }
+    };
+
+    checkToken();
+  }, []);
+
   return (
     <div className="w-screen min-h-screen bg-[#F5F6FA]">
       <div className="hidden xl:block w-full h-[80px] px-[24px] py-[8px] bg-white">
@@ -39,11 +63,14 @@ const DashboardLayout = ({ children }) => {
             </div>
             <div className="bg-white w-[311px] h-[44px]" />
           </div>
-          <Link href={'/dashboard/profile'} className="size-[48px] rounded-full">
-          <img
+          <Link
+            href={"/dashboard/profile"}
             className="size-[48px] rounded-full"
-            src="https://cdn.mos.cms.futurecdn.net/v2/t:191,l:0,cw:3572,ch:2009,q:80,w:3572/ntFmJUZ8tw3ULD3tkBaAtf.jpg"
-          />
+          >
+            <img
+              className="size-[48px] rounded-full"
+              src="https://cdn.mos.cms.futurecdn.net/v2/t:191,l:0,cw:3572,ch:2009,q:80,w:3572/ntFmJUZ8tw3ULD3tkBaAtf.jpg"
+            />
           </Link>
         </div>
       </div>

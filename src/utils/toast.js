@@ -1,4 +1,4 @@
-import { toast } from "react-toastify"
+import { Bounce, toast } from "react-toastify"
 
 export const toastError = (text)=>{
     toast.error(text, {

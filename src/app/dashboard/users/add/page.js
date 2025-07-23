@@ -3,12 +3,29 @@
 import Button from "@/components/button"
 import Input from "@/components/input"
 import ProfileInput from "@/components/profileInput"
+import { createNewUser } from "@/services/dashboard/users"
 import { PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs"
 import { useState } from "react"
 
 const AddUser = ()=>{
 
     const [profile , setProfile] = useState(null)
+    const [profileImageUrl , setProfileImageUrl] = useState("")
+    const [data , setData] = useState({
+        userName : "",
+        fullName : "",
+        password : ""
+    })
+
+    const onSubmit = async (e)=>{
+        e.preventDefault()
+        await createNewUser({
+            body : {
+                ...data,
+                profileImage : profileImageUrl
+            }
+        })
+      }
 
     return(
         <>
@@ -18,15 +35,15 @@ const AddUser = ()=>{
                 <ProfileInput profile={profile} setProfile={setProfile}/>
                 </div>
 
-                <div className="w-full max-w-[378px] mx-auto px-[16px] flex flex-col gap-[24px] mt-[36px]">
-                    <Input label={"User Name :"} icon={<UserOctagon size={24}/>}/>
-                    <Input label={"User Name :"} icon={<UserOctagon size={24}/>}/>
-                    <Input label={"Password :"} icon={<PasswordCheck size={24}/>} type="password"/>
+                <form className="w-full max-w-[378px] mx-auto px-[16px] flex flex-col gap-[24px] mt-[36px]" onSubmit={onSubmit}>
+                <Input label={"Full Name :"} icon={<UserOctagon size={24}/>} value={data.fullName} onChange={((e)=> setData({...data , fullName : e.target.value}))}/>
+                    <Input label={"User Name :"} icon={<UserOctagon size={24}/>} value={data.userName} onChange={((e)=> setData({...data , userName : e.target.value}))}/>
+                    <Input label={"Password :"} icon={<PasswordCheck size={24}/>} type="password" value={data.password} onChange={((e)=> setData({...data , password : e.target.value}))}/>
 
-                    <Button className="mt-[160px]" icon={<TickSquare size={24}/>}>
+                    <Button className="mt-[160px]" icon={<TickSquare size={24}/>} disabled={!(data.password && data.userName)}>
                     Confirm
                     </Button>
-                </div>
+                </form>
             </div>
         </>
     )

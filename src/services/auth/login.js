@@ -1,6 +1,6 @@
 import { createOptions, createUrl } from "@/utils/fetch";
 import { toastError } from "@/utils/toast";
-import { setToken } from "@/utils/token";
+import { setToken, setUserRank } from "@/utils/token";
 
 export const login = async ({ userName, password }) => {
   const response = await fetch(
@@ -20,5 +20,6 @@ export const login = async ({ userName, password }) => {
 
   const data = await response.json();
   setToken({ accessToken: data.accessToken });
+  setUserRank({isAdmin : data.is_admin || false})
   return data;
 };

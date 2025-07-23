@@ -3,8 +3,10 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Toggle from "@/components/toggle";
+import { getToken } from "@/utils/token";
 import { CallIncoming, PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SignupPage = () => {
@@ -28,6 +30,17 @@ const SignupPage = () => {
   useEffect(()=>{
     setHasError(false)
   },[formData])
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const t = await getToken();
+      if (t) {
+        redirect("/dashboard");
+      }
+    };
+  
+    checkToken();
+  }, []);
 
   return (
     <div className="w-screen h-screen flex items-center">
