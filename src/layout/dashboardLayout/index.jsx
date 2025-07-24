@@ -1,11 +1,13 @@
 "use client";
 
-import { Back, Home2 } from "iconsax-reactjs";
+import { Back, FolderAdd, Home2, Profile2User, Ship } from "iconsax-reactjs";
 import HeaderNav from "./headerNav";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getToken, getUserRank } from "@/utils/token";
 import { redirect } from "next/navigation";
+import { getProfile } from "@/services/dashboard/profile";
+import { getFileUrl } from "@/services/dashboard/file";
 
 const DashboardLayout = ({ children }) => {
   const [navList, setNavList] = useState([
@@ -17,14 +19,16 @@ const DashboardLayout = ({ children }) => {
     {
       name: `Add new B/L`,
       url: "/dashboard/bl/add",
-      icon: <Home2 size={24} />,
+      icon: <FolderAdd size={24} />,
     },
     {
       name: "Ship Tracker",
       url: "/ship",
-      icon: <Home2 size={24} />,
+      icon: <Ship size={24} />,
     }
   ]);
+
+  const [profileImage , setProfileImage] = useState(null)
 
   useEffect(() => {
     const checkToken = async () => {
@@ -40,21 +44,27 @@ const DashboardLayout = ({ children }) => {
             {
               name: "Users",
               url: "/dashboard/users",
-              icon: <Home2 size={24} />,
+              icon: <Profile2User size={24} />,
             },
           ]);
         }
       }
     };
 
+    const fetchProfile = async ()=>{
+      const p = await getProfile()
+      setProfileImage(getFileUrl(p.profileImage))
+    }
+
     checkToken();
+    fetchProfile()
   }, []);
 
   return (
     <div className="w-screen min-h-screen bg-[#F5F6FA]">
       <div className="hidden xl:block w-full h-[80px] px-[24px] py-[8px] bg-white">
         <div className="w-full flex items-center justify-between">
-          <img className="h-[64px]" />
+          <img className="h-[64px]" src="/images/dashboard/navbar/logo.png"/>
           <div className="flex items-center gap-[32px]">
             <div className="flex items-center gap-[36px]">
               {navList.map((item) => (
@@ -69,7 +79,7 @@ const DashboardLayout = ({ children }) => {
           >
             <img
               className="size-[48px] rounded-full"
-              src="https://cdn.mos.cms.futurecdn.net/v2/t:191,l:0,cw:3572,ch:2009,q:80,w:3572/ntFmJUZ8tw3ULD3tkBaAtf.jpg"
+              src={profileImage ?? "https://cdn.mos.cms.futurecdn.net/v2/t:191,l:0,cw:3572,ch:2009,q:80,w:3572/ntFmJUZ8tw3ULD3tkBaAtf.jpg"}
             />
           </Link>
         </div>

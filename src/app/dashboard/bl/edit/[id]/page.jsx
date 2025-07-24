@@ -1,0 +1,529 @@
+"use client";
+
+import Button from "@/components/button";
+import FavSelect from "@/components/favSelect";
+import FavTextarea from "@/components/favTextarea";
+import Input from "@/components/input";
+import DocumentImageInput from "@/components/pages/dashboard/bl/add/documentImageInput";
+import Select from "@/components/select";
+import {
+  productCategoryList,
+  productUnitByCategortList,
+  vesselTypeList,
+} from "@/data/staticLists";
+import { createNewBl, getOneBlData, updateBl } from "@/services/dashboard/bl";
+import { getActiveDocuments } from "@/services/dashboard/documents";
+import {
+  AddCircle,
+  AddSquare,
+  ArrowCircleDown2,
+  ArrowCircleUp2,
+  Box,
+  CalendarTick,
+  Edit,
+  Gallery,
+  Ship,
+  TickSquare,
+} from "iconsax-reactjs";
+import { redirect } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+
+const EditBlPage = ({ params }) => {
+  const [data, setData] = useState({
+    registerDate: "",
+    vesselName: "",
+    vesselNumber: "",
+    vesselType: "",
+    trackingLink: "",
+    shipmentDate: "",
+    origin: "",
+    shipper: "",
+    shipperAddress: "",
+    receiveDate: "",
+    destination: "",
+    consignee: "",
+    consigneeAddress: "",
+    stamp: "",
+    signature: "",
+    products: [
+      {
+        category: "",
+        productName: "",
+        productQuantity: "",
+        weight: "",
+        unit: "",
+        description: "",
+      },
+    ],
+  });
+
+  const [isEditMode , setIsEditMode] = useState(false)
+
+  const [registerAndShipmentDateAreSame, setRegisterAndShipmentDateAreSame] =
+    useState(false);
+
+  const addNewProduct = () => {
+    const temp = { ...data };
+    setData({
+      ...temp,
+      products: [
+        ...temp.products,
+        {
+          category: "",
+          productName: "",
+          productQuantity: "",
+          weight: "",
+          unit: "",
+          description: "",
+        },
+      ],
+    });
+  };
+
+  const [useDefaultDocuments, setUseDefaultDocuments] = useState(true);
+
+  const [defaultDocuments, setDefaultDocuments] = useState({
+    stamp: "",
+    signature: "",
+  });
+
+  const [signatureImage, setSignatureImage] = useState(null);
+  const [signatureUrl, setSignatureUrl] = useState(null);
+
+  const [stampImage, setStampImage] = useState(null);
+  const [stampUrl, setStampUrl] = useState(null);
+
+  const isDataValid = (data) => {
+    // Check primitive fields in main data object
+    for (const key in data) {
+      if (key !== "products" && key !== "trackingLink") {
+        if (data[key]?.trim() === "") {
+          return false;
+        }
+      }
+    }
+
+    // Check each product field
+    for (const product of data.products) {
+      for (const key in product) {
+        if (product[key].trim() === "") {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  const isFormValid = useMemo(() => isDataValid(data), [data]);
+
+  const handleInputChange = (e) => {
+    const temp = { ...data };
+    temp[e.target.name] = e.target.value;
+
+    setData(temp);
+  };
+
+  const handleSelectChange = (name, value) => {
+    const temp = { ...data };
+    temp[name] = value;
+
+    setData(temp);
+  };
+
+  const handleProductInputChange = (index, e) => {
+    const temp = { ...data };
+    temp.products[index][e.target.name] = e.target.value;
+
+    setData(temp);
+  };
+
+  const handleProductSelectChange = (index, name, value) => {
+    const temp = { ...data };
+    temp.products[index][name] = value;
+
+    setData(temp);
+  };
+
+  useEffect(() => {
+    if (useDefaultDocuments) {
+      setData({
+        ...data,
+        stamp: defaultDocuments.stamp,
+        signature: defaultDocuments.signature,
+      });
+    } else {
+      setData({ ...data, stamp: stampUrl, signature: signatureUrl });
+    }
+  }, [stampUrl, signatureUrl, defaultDocuments, useDefaultDocuments]);
+
+  useEffect(() => {
+    if (
+      registerAndShipmentDateAreSame &&
+      data.shipmentDate !== data.registerDate
+    ) {
+      setData({ ...data, shipmentDate: data.registerDate });
+    }
+  }, [data, registerAndShipmentDateAreSame]);
+
+  useEffect(() => {
+    const fetchDefaultDocuments = async () => {
+      const data = await getActiveDocuments();
+      const stamp =
+        data.find((item) => item.docType === "stamp")?.image ?? null;
+      const signature =
+        data.find((item) => item.docType === "signature")?.image ?? null;
+      setDefaultDocuments({
+        stamp,
+        signature,
+      });
+    };
+
+    const fetchBlData = async () => {
+      const blData = await getOneBlData({ id: params.id });
+
+      setData({
+        registerDate: blData.registerDate,
+        vesselName: blData.vesselName,
+        vesselNumber: blData.vesselNumber,
+        vesselType: blData.vesselType,
+        trackingLink: blData.trackingLink,
+        shipmentDate: blData.shipmentDate,
+        origin: blData.origin,
+        shipper: blData.shipper,
+        shipperAddress: blData.shipperAddress,
+        receiveDate: blData.receiveDate?.split("T")[0],
+        destination: blData.destination,
+        consignee: blData.consignee,
+        consigneeAddress: blData.consigneeAddress,
+        stamp: blData.stamp,
+        signature: blData.signature,
+        products: blData.products,
+      });
+    };
+
+    fetchDefaultDocuments();
+    fetchBlData();
+  }, []);
+
+  const submitAsNew = async () => {
+    await createNewBl({ body: data });
+    redirect("/dashboard");
+  };
+
+  const updateThisBl = async () => {
+    await updateBl({id :params.id , body: data });
+    redirect("/dashboard");
+  };
+
+  return (
+    <>
+    {console.log(data)}
+      <h2 className="md:hidden w-full text-center mx-auto font-[600] text-[24px] text-[#2E353A] mt-[20px] mb-[42px]">
+        ADD New BL
+      </h2>
+      <div className="w-full flex items-center justify-center pb-[48px]">
+        <div className="w-full max-w-[362px] mx-[16px] flex flex-col gap-[24px] md:mt-[40px]">
+          <div className="w-full flex flex-col gap-[18px]">
+            <Input
+              label={"Bl Registration Date :"}
+              icon={<CalendarTick size={24} />}
+              type="date"
+              name="registerDate"
+              value={data.registerDate}
+              onChange={handleInputChange}
+              disabled={!isEditMode}
+            />
+            <div
+              className={`flex items-center gap-[10px] ${
+                registerAndShipmentDateAreSame
+                  ? "text-[#2996E8]"
+                  : "text-[#7C7C7C]"
+              }`}
+              onClick={() =>
+                setRegisterAndShipmentDateAreSame(
+                  !registerAndShipmentDateAreSame
+                )
+              }
+            >
+              <TickSquare size={12} />
+              <p className="text-[12px] font-[700]">
+                Use the shipment date as the registration date
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full mt-[24px] flex flex-col gap-[12px]">
+            <div className="w-full flex items-center gap-[4px] mb-[16px] text-[#AAAAAA]">
+              <Ship size={24} />
+              <p className="font-[600] text-[16px]">Vessel Information :</p>
+            </div>
+            <Input
+              placeholder="Vessel Name . . ."
+              name="vesselName"
+              value={data.vesselName}
+              onChange={handleInputChange}
+              disabled={!isEditMode}
+            />
+            <Input
+              placeholder="Vessel Number . . ."
+              name="vesselNumber"
+              value={data.vesselNumber}
+              onChange={handleInputChange}
+              disabled={!isEditMode}
+            />
+            <Select
+              placeholder="Vessel Type . . ."
+              name="vesselType"
+              options={vesselTypeList}
+              value={{ label: data.vesselType, value: data.vesselType }}
+              onChange={(e) => handleSelectChange("vesselType", e.value)}
+              disabled={!isEditMode}
+            />
+            <Input
+              placeholder="Tracking Link ( Optional )"
+              name="trackingLink"
+              value={data.trackingLink}
+              onChange={handleInputChange}
+              disabled={!isEditMode}
+            />
+          </div>
+          <div className="w-full mt-[24px] flex flex-col gap-[12px]">
+            <div className="w-full flex items-center gap-[4px] mb-[16px] text-[#AAAAAA]">
+              <ArrowCircleUp2 size={24} />
+              <p className="font-[600] text-[16px]">
+                Origin & Departure Details :
+              </p>
+            </div>
+            <Input
+              type="date"
+              placeholder="Shipping Date"
+              disabled={registerAndShipmentDateAreSame || !isEditMode}
+              name="shipmentDate"
+              value={data.shipmentDate}
+              onChange={handleInputChange}
+            />
+            <FavSelect
+              favType={"origin"}
+              placeholder="Origin . . ."
+              name="origin"
+              value={{ label: data.origin, value: data.origin }}
+              onChange={(e) => handleSelectChange("origin", e.value)}
+              disabled={!isEditMode}
+            />
+            <FavSelect
+              favType={"shipper"}
+              placeholder="Shipper . . ."
+              name="shipper"
+              value={{ label: data.shipper, value: data.shipper }}
+              onChange={(e) => handleSelectChange("shipper", e.value)}
+              disabled={!isEditMode}
+            />
+            <FavTextarea
+              favType={"shipperAddress"}
+              placeholder="Shipper’s Address . . ."
+              name="shipperAddress"
+              value={data.shipperAddress}
+              onChange={(val) => handleSelectChange("shipperAddress", val)}
+              disabled={!isEditMode}
+            />
+          </div>
+
+          <div className="w-full mt-[24px] flex flex-col gap-[12px]">
+            <div className="w-full flex items-center gap-[4px] mb-[16px] text-[#AAAAAA]">
+              <ArrowCircleDown2 size={24} />
+              <p className="font-[600] text-[16px]">
+                Destination & Arrival Details :
+              </p>
+            </div>
+            <Input
+              type="date"
+              placeholder="Receiving Date"
+              name="receiveDate"
+              value={data.receiveDate}
+              onChange={handleInputChange}
+              disabled={!isEditMode}
+            />
+            <FavSelect
+              favType={"destination"}
+              placeholder="Destination . . ."
+              name="vesselName"
+              value={{ label: data.destination, value: data.destination }}
+              onChange={(e) => handleSelectChange("destination", e.value)}
+              disabled={!isEditMode}
+            />
+            <FavSelect
+              favType={"consignee"}
+              placeholder="Consignee . . ."
+              name="consignee"
+              value={{ label: data.consignee, value: data.consignee }}
+              onChange={(e) => handleSelectChange("consignee", e.value)}
+              disabled={!isEditMode}
+            />
+            <FavTextarea
+              favType={"consigneeAddress"}
+              placeholder="Consignee’s Address . . ."
+              name="consigneeAddress"
+              value={data.consigneeAddress}
+              onChange={(val) => handleSelectChange("consigneeAddress", val)}
+              disabled={!isEditMode}
+            />
+          </div>
+
+          <div className="w-full mt-[24px] flex flex-col">
+            <div className="flex items-center justify-between">
+              <div className="w-full flex items-center gap-[4px] mb-[16px] text-[#AAAAAA]">
+                <Box size={24} />
+                <p className="font-[600] text-[16px]">Product</p>
+              </div>
+
+              <button onClick={addNewProduct}>
+                <AddCircle size={24} />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-[24px]">
+              {data.products.map((item, index) => (
+                <div
+                  key={`product-${index}`}
+                  className="flex flex-col gap-[12px]"
+                >
+                  {index > 0 && (
+                    <p className="mb-[16px] font-[600] text-[#2996E8]">
+                      Product #{index + 1}
+                    </p>
+                  )}
+                  <Select
+                    placeholder="Category . . ."
+                    name="Category"
+                    options={productCategoryList}
+                    value={{ label: item.category, value: item.category }}
+                    onChange={(e) =>
+                      handleProductSelectChange(index, "category", e.value)
+                    }
+                    disabled={!isEditMode}
+                  />
+                  <div className="w-full flex gap-[16px]">
+                    <Input
+                      placeholder="Name Of Product . . . "
+                      name="productName"
+                      value={item.name}
+                      onChange={(e) => handleProductInputChange(index, e)}
+                      disabled={!isEditMode}
+                    />
+                    <Input
+                      placeholder="Product Quantity . . .  "
+                      name="productQuantity"
+                      value={item.productQuantity}
+                      onChange={(e) => handleProductInputChange(index, e)}
+                      disabled={!isEditMode}
+                    />
+                  </div>
+                  <div className="w-full flex gap-[16px]">
+                    <Input
+                      placeholder="Weight . . ."
+                      name="weight"
+                      value={item.weight}
+                      onChange={(e) => handleProductInputChange(index, e)}
+                      disabled={!isEditMode}
+                    />
+                    <Select
+                      placeholder=" Unit . . ."
+                      name="unit"
+                      disabled={!item.category || !isEditMode}
+                      options={
+                        item.category
+                          ? productUnitByCategortList[item.category]
+                          : []
+                      }
+                      value={{ label: item.unit, value: item.unit }}
+                      onChange={(e) =>
+                        handleProductSelectChange(index, "unit", e.value)
+                      }
+                    />
+                  </div>
+                  <FavTextarea
+                    favType={"productDescription"}
+                    placeholder="Product Description . . ."
+                    name="description"
+                    value={item.description}
+                    onChange={(e) =>
+                      handleProductSelectChange(index, "description", e)
+                    }
+                    disabled={!isEditMode}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full mt-[24px] flex flex-col gap-[12px]">
+            <div className="w-full flex items-center justify-between mb-[22px]">
+              <div className="flex items-center gap-[4px] text-[#AAAAAA]">
+                <Gallery size={24} />
+                <p className="font-[600] text-[16px]">Upload Document</p>
+              </div>
+              <div
+                className={`flex items-center gap-[10px] ${
+                  useDefaultDocuments ? "text-[#2996E8]" : "text-[#7C7C7C]"
+                }`}
+                onClick={() => setUseDefaultDocuments(!useDefaultDocuments)}
+              >
+                <p className="text-[12px] font-[700]">Use Default document</p>
+                <TickSquare size={12} />
+              </div>
+            </div>
+            <div className="flex items-center gap-[12px]">
+              <DocumentImageInput
+                type="Stamp"
+                documentImage={stampImage}
+                setDocumentImage={setStampImage}
+                setDocumentImageUrl={setStampUrl}
+                disabled={useDefaultDocuments || !isEditMode}
+              />
+              <DocumentImageInput
+                type="Signature"
+                documentImage={signatureImage}
+                setDocumentImage={setSignatureImage}
+                setDocumentImageUrl={setSignatureUrl}
+                disabled={useDefaultDocuments || !isEditMode}
+              />
+            </div>
+          </div>
+          {!isEditMode ?
+            <Button
+            leftIcon
+            icon={<Edit size={24} />}
+            disabled={!isFormValid}
+            onClick={()=> setIsEditMode(true)}
+          >
+            Edit 
+          </Button> :
+          <>
+          <Button
+            leftIcon
+            icon={<AddSquare size={24} />}
+            disabled={!isFormValid}
+            onClick={submitAsNew}
+            color="green"
+          >
+            Add as a new BL
+          </Button>
+
+          <Button
+            leftIcon
+            icon={<TickSquare size={24} />}
+            disabled={!isFormValid}
+            onClick={updateThisBl}
+          >
+            Confirm
+          </Button>
+          </>  
+        }
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default EditBlPage;

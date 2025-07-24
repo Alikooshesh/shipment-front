@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const User = ({ bgWhite, id, name, userName, profileImage, blCount }) => {
     return (
-      <div
+      <Link href={`/dashboard/users/bl/${id}`}
         className={`w-full h-[92px] px-[16px] flex items-center justify-center ${
           bgWhite ? "bg-white" : ""
         }`}
@@ -33,7 +33,7 @@ const User = ({ bgWhite, id, name, userName, profileImage, blCount }) => {
             <UserEdit size={24} color="#6B7BFF" />
           </Link>
         </div>
-      </div>
+      </Link>
     );
   };
 

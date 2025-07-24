@@ -97,6 +97,7 @@ const Select = ({ icon, label, hasError, onFocus, onBlur, showIcon = true,option
       )}
       <ReactSelect
         {...props}
+        isDisabled={props.disabled}
         options={reformatOptions(options)}
         value={props.value?.value || props.value?.label ? props.value : null}
         components={{

@@ -25,7 +25,8 @@ const LoginPage = () => {
     if (hasError) return;
     login({ ...formData })
       .then(() => {
-        redirect("/dashboard");
+        // redirect("/dashboard");
+        window.location.replace("/dashboard")
       })
       .catch((e) => {
         console.log(e)
