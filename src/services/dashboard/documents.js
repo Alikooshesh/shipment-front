@@ -52,7 +52,7 @@ export const getAllDocuments = async () => {
     }
   
     const data = await response.json();
-    return data.filter(i => i.isActive);
+    return data.records.filter(i => i.isActive);
   };
 
   export const updateDocument = async ({id , body}) => {

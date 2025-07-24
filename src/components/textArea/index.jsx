@@ -26,6 +26,7 @@ const Textarea = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
         </div>
       )}
       <textarea
+        rows={4}
         {...props}
         onFocus={(e) => {
           setIsFocus(true);
@@ -39,8 +40,7 @@ const Textarea = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
             onBlur(e);
           }
         }}
-        rows={4}
-        className={`w-full rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] resize-none ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
+        className={`w-full pt-[16px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] resize-none placeholder:font-[500] placeholder:text-[12px] placeholder:text-[#AAAAAA] ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
       />
     </div>
   );

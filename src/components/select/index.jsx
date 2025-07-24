@@ -5,7 +5,20 @@ import { useState } from "react";
 import ReactSelect from "react-select";
 import { components } from "react-select";
 
-const Select = ({ icon, label, hasError, onFocus, onBlur, showIcon = true, ...props }) => {
+const reformatOptions = (o)=>{
+    return o.map(item => {
+
+        if(typeof item === "string"){
+            return {label : item , value : item}
+        }
+
+        if(item.value && item.label){
+            return item
+        }
+    })
+}
+
+const Select = ({ icon, label, hasError, onFocus, onBlur, showIcon = true,options, ...props }) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const labelColor = !isFocus
@@ -84,6 +97,8 @@ const Select = ({ icon, label, hasError, onFocus, onBlur, showIcon = true, ...pr
       )}
       <ReactSelect
         {...props}
+        options={reformatOptions(options)}
+        value={props.value?.value || props.value?.label ? props.value : null}
         components={{
             DropdownIndicator: (props) => {
                 if(!showIcon) return;

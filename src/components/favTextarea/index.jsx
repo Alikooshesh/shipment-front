@@ -1,14 +1,14 @@
 import { ArchiveAdd, Star1 } from "iconsax-reactjs";
 import Input from "../input";
 import { useEffect, useState } from "react";
-import Select from "../select";
 import { createNewFav, deleteFav, getFavList } from "@/services/dashboard/fav";
+import Textarea from "../textArea";
 
-const FavSelect = ({ favType, onChange, ...props }) => {
+const FavTextarea = ({ favType, onChange, ...props }) => {
 
     const [newFavInputValue , setNewFavInputValue] = useState("")
 
-  const [selected, setSelected] = useState(null);
+  const [value, setValue] = useState(null);
   const [favList, setFavList] = useState([]);
 
   const [isFavListOpen, setIsFavListOpen] = useState(false);
@@ -34,9 +34,9 @@ const FavSelect = ({ favType, onChange, ...props }) => {
   };
 
   useEffect(() => {
-    if(!selected) return;
-    onChange(selected);
-  }, [selected]);
+    if(!value) return;
+    onChange(value);
+  }, [value]);
 
   useEffect(() => {
     fetchFavList();
@@ -45,7 +45,7 @@ const FavSelect = ({ favType, onChange, ...props }) => {
   return (
     <div className="w-full relative">
       {isFavListOpen && (
-        <div className="w-full max-h-[232px] p-[12px] absolute top-[60px] z-[5] bg-white border-[2px] border-[#2996E8] rounded-[8px]">
+        <div className="w-full max-h-[232px] p-[12px] absolute top-[78px] z-[5] bg-white border-[2px] border-[#2996E8] rounded-[8px]">
           <div className="w-full flex gap-[8px]">
             <Input placeholder="Type here to add to your favorites . . ." className="w-full" value={newFavInputValue} onChange={(e)=> setNewFavInputValue(e.target.value)}/>
             <div
@@ -63,7 +63,7 @@ const FavSelect = ({ favType, onChange, ...props }) => {
                   index % 2 === 0 ? "bg-[#F5F6FA]" : "bg-white"
                 }`}
                 onClick={() => {
-                  setSelected({ label: item.text, value: item.text });
+                  setValue(item.text);
                   setIsFavListOpen(false);
                 }}
               >
@@ -85,16 +85,8 @@ const FavSelect = ({ favType, onChange, ...props }) => {
         </div>
       )}
 
-      <div className="w-full flex items-center gap-[12px]">
-        <Select
-            {...props}
-          options={favList.map((item) => ({
-            label: item.text,
-            value: item.text,
-          }))}
-          value={selected}
-          onChange={(i) => setSelected(i)}
-        />
+      <div className="w-full flex items-start gap-[12px]">
+        <Textarea {...props} rows={2} value={value} onChange={(e)=> setValue(e.target.value)}/>
         <div
           className={`size-[48px] flex items-center justify-center border-[2px] rounded-[8px] ${
             isFavListOpen ? "border-[#2996E8]" : "border-[#AAAAAA]"
@@ -108,4 +100,4 @@ const FavSelect = ({ favType, onChange, ...props }) => {
   );
 };
 
-export default FavSelect;
+export default FavTextarea;
