@@ -4,7 +4,7 @@ import Button from "@/components/button"
 import Input from "@/components/input"
 import ProfileInput from "@/components/profileInput"
 import { getUserData, updateUser } from "@/services/dashboard/users"
-import { PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs"
+import { Edit, PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs"
 import { useEffect, useState } from "react"
 
 const EditUser = ({params})=>{
@@ -51,7 +51,7 @@ const EditUser = ({params})=>{
                     <Input label={"User Name :"} icon={<UserOctagon size={24}/>} value={data.userName} onChange={((e)=> setData({...data , userName : e.target.value}))}/>
                     <Input label={"Password :"} icon={<PasswordCheck size={24}/>} type="password" value={data.password} onChange={((e)=> setData({...data , password : e.target.value}))}/>
 
-                    <Button className="mt-[160px]" icon={<TickSquare size={24}/>}>
+                    <Button className="mt-[160px]" icon={<Edit size={24}/>} leftIcon>
                     Edit Information
                     </Button>
                 </form>

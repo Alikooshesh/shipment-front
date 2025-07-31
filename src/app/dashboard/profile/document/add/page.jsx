@@ -47,7 +47,7 @@ const AddDocumentPage = () => {
       </div>
 
       <div className="w-full mt-[48px] px-[16px] flex items-center justify-center">
-        <Button className="w-full max-w-[362px]" icon={<TickSquare/>} leftIcon onClick={submit}>
+        <Button className="w-full max-w-[362px]" icon={<TickSquare/>} leftIcon onClick={submit} disabled={!((signatureData.image && signatureData.name) || (stampData.image && stampData.name))}>
         Confirm
         </Button>
       </div>
