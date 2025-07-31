@@ -88,9 +88,9 @@ const FavTextarea = ({ favType, onChange, ...props }) => {
       <div className="w-full flex items-start gap-[12px]">
         <Textarea {...props} rows={2} value={value} onChange={(e)=> setValue(e.target.value)}/>
         <div
-          className={`size-[48px] flex items-center justify-center border-[2px] rounded-[8px] ${
+          className={`min-w-[48px] max-w-[48px] min-h-[48px] max-h-[48px] flex items-center justify-center border-[2px] rounded-[8px] ${
             isFavListOpen ? "border-[#2996E8]" : "border-[#AAAAAA]"
-          }`}
+          } ${props.disabled ? "" : "bg-white"}`}
           onClick={() => setIsFavListOpen(!isFavListOpen)}
         >
           <Star1 size={24} color={isFavListOpen ? "#FFD700" : "#AAAAAA"} />

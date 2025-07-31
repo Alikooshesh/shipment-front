@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar } from "iconsax-reactjs";
+import { Calendar, Eye, EyeSlash } from "iconsax-reactjs";
 import { useState } from "react";
 
 const Input = ({
@@ -10,9 +10,11 @@ const Input = ({
   onFocus,
   onBlur,
   showCalendarIcon = true,
+  showEyeIcon = true,
   ...props
 }) => {
   const [isFocus, setIsFocus] = useState(false);
+  const [showPassword , setShowPassword] = useState(false)
 
   return (
     <div className="w-full flex flex-col gap-[13px]">
@@ -49,10 +51,10 @@ const Input = ({
       <div className="w-full relative">
         {showCalendarIcon && props.type === "date" && (
           <span
-            className={`absolute right-[12px] top-[50%] translate-y-[-50%] ${
+            className={`absolute right-[12px] top-[50%] translate-y-[-50%] bg-white pointer-events-none ${
               !isFocus
                 ? !hasError
-                  ? "text-[#AAAAAA]"
+                  ? "text-[#6B7BFF]"
                   : "text-[#FF0000]"
                 : "text-[#2996E8]"
             }`}
@@ -60,8 +62,27 @@ const Input = ({
             <Calendar size={24} />
           </span>
         )}
+
+        {showEyeIcon && props.type === "password" && (
+          <span
+            className={`absolute right-[12px] top-[50%] translate-y-[-50%] bg-white ${
+              !isFocus
+                ? !hasError
+                  ? "text-[#AAAAAA]"
+                  : "text-[#FF0000]"
+                : "text-[#2996E8]"
+            }`}
+            onClick={()=> setShowPassword(!showPassword)}
+          >
+            {showPassword ? <EyeSlash size={24} /> : <Eye size={24} />}
+          </span>
+        )}
         <input
           {...props}
+          type={
+            props.type !== 'password' ? props.type :
+              showPassword ? 'text' : 'password'
+          }
           onFocus={(e) => {
             setIsFocus(true);
             if (onFocus) {

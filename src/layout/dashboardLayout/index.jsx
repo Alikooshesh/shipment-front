@@ -5,11 +5,12 @@ import HeaderNav from "./headerNav";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getToken, getUserRank } from "@/utils/token";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { getProfile } from "@/services/dashboard/profile";
 import { getFileUrl } from "@/services/dashboard/file";
 
 const DashboardLayout = ({ children }) => {
+  const pathname = usePathname();
   const [navList, setNavList] = useState([
     {
       name: "Dashboard",
@@ -73,6 +74,7 @@ const DashboardLayout = ({ children }) => {
             </div>
             <div className="bg-white w-[311px] h-[44px]" />
           </div>
+          <div className={`size-[64px] flex items-center justify-center rounded-full border-[2px] ${pathname === '/dashboard/profile' ? "border-[#2996E8]" : "border-transparent"}`}>
           <Link
             href={"/dashboard/profile"}
             className="size-[48px] rounded-full"
@@ -82,12 +84,15 @@ const DashboardLayout = ({ children }) => {
               src={profileImage ?? "https://cdn.mos.cms.futurecdn.net/v2/t:191,l:0,cw:3572,ch:2009,q:80,w:3572/ntFmJUZ8tw3ULD3tkBaAtf.jpg"}
             />
           </Link>
+          </div>
         </div>
       </div>
-      <div className="w-full xl:hidden px-[16px] pt-[24px] flex items-center gap-[8px] text-[#6B7BFF]">
+      <button onClick={()=>{
+        window.history.back();
+      }} className="w-full xl:hidden px-[16px] pt-[24px] flex items-center gap-[8px] text-[#6B7BFF]">
         <Back size={24} />
         <p className="font-[500] text-[16px]">Back</p>
-      </div>
+      </button>
       {children}
     </div>
   );

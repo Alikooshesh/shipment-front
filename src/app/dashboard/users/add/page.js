@@ -8,7 +8,7 @@ import { PasswordCheck, TickSquare, UserOctagon } from "iconsax-reactjs"
 import { useEffect, useState } from "react"
 
 const AddUser = ()=>{
-
+    
     const [profile , setProfile] = useState(null)
     const [profileImageUrl , setProfileImageUrl] = useState("")
     const [data , setData] = useState({
@@ -19,12 +19,18 @@ const AddUser = ()=>{
 
     const onSubmit = async (e)=>{
         e.preventDefault()
-        await createNewUser({
-            body : {
-                ...data,
-                profileImage : profileImageUrl
-            }
-        })
+        try{
+            await createNewUser({
+                body : {
+                    ...data,
+                    profileImage : profileImageUrl
+                }
+            })
+            window.location = '/dashboard/users'
+        }
+        catch(e){
+            console.log(e)
+        }
       }
 
     return(

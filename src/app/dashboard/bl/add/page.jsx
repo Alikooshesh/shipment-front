@@ -52,7 +52,7 @@ const AddBlPage = () => {
   });
 
   const [registerAndShipmentDateAreSame, setRegisterAndShipmentDateAreSame] =
-    useState(false);
+    useState(true);
 
   const addNewProduct = () => {
     const temp = { ...data };
@@ -187,23 +187,24 @@ const AddBlPage = () => {
               value={data.registerDate}
               onChange={handleInputChange}
             />
-            <div
-              className={`flex items-center gap-[10px] ${
-                registerAndShipmentDateAreSame
-                  ? "text-[#2996E8]"
-                  : "text-[#7C7C7C]"
-              }`}
+            <button
+              className={`flex items-center gap-[10px] text-[#7C7C7C]`}
               onClick={() =>
                 setRegisterAndShipmentDateAreSame(
                   !registerAndShipmentDateAreSame
                 )
               }
             >
-              <TickSquare size={12} />
+              <div className="size-[16px] border-2 border-[#7C7C7C] flex items-center justify-center rounded-[2px]">
+                <svg width="12" height="12" className={registerAndShipmentDateAreSame ? "" : "opacity-0"} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.4458 6.63435L4.5829 8.77135L9.35424 4" stroke="#7C7C7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </div>
               <p className="text-[12px] font-[700]">
                 Use the shipment date as the registration date
               </p>
-            </div>
+            </button>
           </div>
 
           <div className="w-full mt-[24px] flex flex-col gap-[12px]">
@@ -390,15 +391,19 @@ const AddBlPage = () => {
                 <Gallery size={24} />
                 <p className="font-[600] text-[16px]">Upload Document</p>
               </div>
-              <div
-                className={`flex items-center gap-[10px] ${
-                  useDefaultDocuments ? "text-[#2996E8]" : "text-[#7C7C7C]"
-                }`}
+              <button
+                className={`flex items-center gap-[10px] text-[#7C7C7C]`}
                 onClick={() => setUseDefaultDocuments(!useDefaultDocuments)}
               >
                 <p className="text-[12px] font-[700]">Use Default document</p>
-                <TickSquare size={12} />
-              </div>
+                
+                <div className="size-[16px] border-2 border-[#7C7C7C] flex items-center justify-center rounded-[2px]">
+                <svg width="12" height="12" className={useDefaultDocuments ? "" : "opacity-0"} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.4458 6.63435L4.5829 8.77135L9.35424 4" stroke="#7C7C7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                </div>
+              </button>
             </div>
             <div className="flex items-center gap-[12px]">
               <DocumentImageInput

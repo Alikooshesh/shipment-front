@@ -10,6 +10,8 @@ const ProfileDocuments = ()=>{
 
     const [documents , setDocuments] = useState([])
 
+    const [systemNotice , setSystemNotice] = useState("")
+
     const getDocuments = async ()=>{
         const documentList = await getAllDocuments()
         setDocuments(documentList)
@@ -22,14 +24,17 @@ const ProfileDocuments = ()=>{
     const setActive = async (id,type)=>{
         if(!id) return;
         const temp = [...documents]
-        const active = temp.find(item => (item.isActive && item.type === type))?.id
+        const active = temp.find(item => (item.isActive && item.docType === type))?.id
+        console.log({type , active})
         if(active){
-            await updateDocument({id : active.id , body : {isActive : false}})
+            await updateDocument({id : active , body : {isActive : false}})
+        }else{
+            await updateDocument({id , body : {isActive : true}})
         }
-        await updateDocument({id , body : {isActive : true}})
+        
         
         setDocuments([...temp.map(item => {
-            if(item.id === active.id){
+            if(item.id === active){
                 return ({...item , isActive : false})
             }
             if(item.id === id){
@@ -53,7 +58,7 @@ const ProfileDocuments = ()=>{
                 Preview Stamp
                 </p>
 
-                {documents.filter(item => item.docType === "stamp").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.type)} {...item}/>)}
+                {documents.filter(item => item.docType === "stamp").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.docType)} {...item}/>)}
             </div>
 
             <div className="w-full flex flex-col gap-[12px]">
@@ -61,7 +66,7 @@ const ProfileDocuments = ()=>{
                 Preview Signature 
                 </p>
 
-                {documents.filter(item => item.docType === "signature").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.type)} {...item}/>)}
+                {documents.filter(item => item.docType === "signature").map(item => <DocumentCard key={item.id} remove={()=> removeDocument(item.id)} setActive={()=> setActive(item.id , item.docType)} {...item}/>)}
             </div>
 
             <div className="w-full flex flex-col gap-[12px]">
@@ -69,7 +74,7 @@ const ProfileDocuments = ()=>{
                 System Notice ( Dashboard Message )
                 </p>
 
-                <Textarea />
+                <Textarea value={systemNotice} onChange={(e)=> setSystemNotice(e.target.value)} maxLength={150}/>
             </div>
 
             <Link href="/dashboard/profile/document/add">

@@ -1,6 +1,6 @@
 import { ArchiveAdd, Star1 } from "iconsax-reactjs";
 import Input from "../input";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Select from "../select";
 import { createNewFav, deleteFav, getFavList } from "@/services/dashboard/fav";
 
@@ -12,6 +12,8 @@ const FavSelect = ({ favType, onChange, ...props }) => {
   const [favList, setFavList] = useState([]);
 
   const [isFavListOpen, setIsFavListOpen] = useState(false);
+
+  const containerRef = useRef(null);
 
   const fetchFavList = async () => {
     const favs = await getFavList({favType});
@@ -42,8 +44,21 @@ const FavSelect = ({ favType, onChange, ...props }) => {
     fetchFavList();
   }, [favType]);
 
+  useEffect(() => {
+    if (!isFavListOpen) return;
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsFavListOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFavListOpen]);
+
   return (
-    <div className="w-full relative">
+    <div className="w-full relative" ref={containerRef}>
       {isFavListOpen && (
         <div className="w-full max-h-[232px] p-[12px] absolute top-[60px] z-[5] bg-white border-[2px] border-[#2996E8] rounded-[8px]">
           <div className="w-full flex gap-[8px]">
@@ -96,9 +111,9 @@ const FavSelect = ({ favType, onChange, ...props }) => {
           onChange={(i) => setSelected(i)}
         />
         <div
-          className={`size-[48px] flex items-center justify-center border-[2px] rounded-[8px] ${
+          className={`min-w-[48px] max-w-[48px] min-h-[48px] max-h-[48px] flex items-center justify-center border-[2px] rounded-[8px] ${
             isFavListOpen ? "border-[#2996E8]" : "border-[#AAAAAA]"
-          }`}
+          } ${props.disabled ? "" : "bg-white"}`}
           onClick={() => setIsFavListOpen(!isFavListOpen)}
         >
           <Star1 size={24} color={isFavListOpen ? "#FFD700" : "#AAAAAA"} />

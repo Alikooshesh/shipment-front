@@ -25,6 +25,7 @@ const Textarea = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
           )}
         </div>
       )}
+      <div className="w-full relative">
       <textarea
         rows={4}
         {...props}
@@ -42,6 +43,10 @@ const Textarea = ({ icon, label , hasError , onFocus , onBlur , ...props }) => {
         }}
         className={`w-full pt-[16px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] resize-none placeholder:font-[500] placeholder:text-[12px] placeholder:text-[#AAAAAA] ${hasError && !isFocus ? '!border-[#FF0000]' : ''}`}
       />
+      {props.maxLength &&
+        <span className="text-[#000000] font-[600] text-[10px] absolute right-[12px] bottom-[12px]">{props.value?.length ?? 0}/{props.maxLength}</span>
+      }
+      </div>
     </div>
   );
 };
