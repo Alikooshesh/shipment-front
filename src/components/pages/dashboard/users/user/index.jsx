@@ -2,7 +2,7 @@ import { getFileUrl } from "@/services/dashboard/file";
 import { UserEdit } from "iconsax-reactjs";
 import Link from "next/link";
 
-const User = ({ bgWhite, id, name, userName, profileImage, blCount }) => {
+const User = ({ bgWhite, id, fullName, userName, profileImage, blCount }) => {
     return (
       <Link href={`/dashboard/users/bl/${id}`}
         className={`w-full h-[92px] px-[16px] flex items-center justify-center ${
@@ -18,7 +18,7 @@ const User = ({ bgWhite, id, name, userName, profileImage, blCount }) => {
             <div className="flex flex-col gap-[8px] sm:gap-[16px]">
               <div className="flex flex-col gap-[8px] sm:flex-row sm:gap-[24px]">
                 <p className="font-[500] text-[16px] text-[#2E353A] sm:font-[700] sm:text-[20px]">
-                  {name}
+                  {fullName}
                 </p>
                 <p className="font-[500] text-[12px] text-[#7C7C7C] sm:text-[20px]">
                   {userName}
