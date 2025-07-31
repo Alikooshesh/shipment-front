@@ -119,7 +119,7 @@ const LoginPage = () => {
       </div>
       <div className="hidden lg:block flex-1 h-full">
         <img
-          src="/images/login/bg.png"
+          src="/images/login/bg.jpg"
           className="w-full h-full object-cover"
         />
       </div>
