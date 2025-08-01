@@ -2,6 +2,7 @@
 
 import BlCard from "@/components/pages/dashboard/dashboard/blCard";
 import { getAllBl } from "@/services/dashboard/bl";
+import { ArrowDown, ArrowDown2, ArrowDown3, Calendar, CloseCircle } from "iconsax-reactjs";
 import { useEffect, useState } from "react";
 
 const DashboardPage = () => {
@@ -20,6 +21,24 @@ const DashboardPage = () => {
 
   return (
     <>
+      <div className="hidden w-full xl:flex items-center justify-between px-[44px] py-[24px]">
+        <div className="flex items-center gap-[24px]">
+          <div className="relative">
+            <Calendar size={24} color="#2996E8" className="absolute top-1/2 translate-y-[-50%] left-[12px] pointer-events-none"/>
+            <input type="date" className="w-[188px] h-[54px] pl-[44px] pr-[12px] text-[#2996E8] border-[2px] border-[#2996E8] rounded-[8px] font-[600] text-[16px]"/>
+            <ArrowDown2 size={24} color="#2996E8" className="absolute top-1/2 translate-y-[-50%] right-[12px] bg-[#F5F6FA] pointer-events-none"/>
+          </div>
+        </div>
+        <div className="w-full max-w-[416px] px-[16px] py-[12px] rounded-[8px] bg-white border-[1px] border-[#1E1E1E]">
+          <div className="w-full flex items-center justify-between">
+            <p className="font-[600] text-[16px] text-[#1E1E1E]">Yashar :</p>
+            <CloseCircle size={16} color="#FF0000"/>
+          </div>
+          <p className="font-[600] text-[12px] text-[#7C7C7C]">
+          Welcome back! Don’t forget to check the latest updates and complete your pending tasks. If you need any help, feel free to contact support.
+          </p>
+        </div>
+      </div>
       <div className="w-screen h-[54px] md:h-[64px] mt-[24px] flex items-center justify-center gap-[18px] md:gap-[128px] bg-white border-y-[1px] border-[#2996E8]">
         <button
             onClick={()=> setFilterControl("In-Transit")}
