@@ -1,16 +1,28 @@
-import { formatDateToLongString, getTimeProgressPercentage } from "@/utils/date";
-import { Box, Buildings2, Calendar, Copy, DocumentDownload, Edit, Eye } from "iconsax-reactjs";
+import {
+  formatDateToLongString,
+  getTimeProgressPercentage,
+} from "@/utils/date";
+import {
+  Box,
+  Buildings2,
+  Calendar,
+  Copy,
+  DocumentDownload,
+  Edit,
+  Eye,
+} from "iconsax-reactjs";
 import { redirect } from "next/navigation";
 
 function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-      .then(() => {
-        console.log('Text copied to clipboard');
-      })
-      .catch(err => {
-        console.error('Failed to copy text: ', err);
-      });
-  }
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      console.log("Text copied to clipboard");
+    })
+    .catch((err) => {
+      console.error("Failed to copy text: ", err);
+    });
+}
 
 const BlCard = ({
   id,
@@ -23,25 +35,23 @@ const BlCard = ({
   blNumber,
   origin,
 }) => {
-
-    const productsCount = products.reduce((sum, product) => {
-        return sum + parseFloat(product.productQuantity || 0);
-      }, 0);
-      
+  const productsCount = products.reduce((sum, product) => {
+    return sum + parseFloat(product.productQuantity || 0);
+  }, 0);
 
   return (
-    <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] border-[#2996E8] rounded-[12px] bg-[#FFFFFF] relative">
-        <div className="absolute right-[8px] top-[12px]">
-            <p className="font-[700] text-[20px] text-[#1E1E1E]">
-                {vesselName}
-            </p>
-            <div className="mt-[4px] flex items-center gap-[8px]">
-                <p className="text-[16px] font-[600] text-[#7C7C7C]">
-                    {blNumber}
-                </p>
-                <Copy size={24} color="#6B7BFF" onClick={()=> copyToClipboard(blNumber)}/>
-            </div>
+    <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] border-[#2996E8] rounded-[12px] bg-[#FFFFFF] relative overflow-hidden">
+      <div className="absolute right-[8px] top-[12px]">
+        <p className="font-[700] text-[20px] text-[#1E1E1E]">{vesselName}</p>
+        <div className="mt-[4px] flex items-center gap-[8px]">
+          <p className="text-[16px] font-[600] text-[#7C7C7C]">{blNumber}</p>
+          <Copy
+            size={24}
+            color="#6B7BFF"
+            onClick={() => copyToClipboard(blNumber)}
+          />
         </div>
+      </div>
       <div className="flex flex-col gap-[8px] text-[#7C7C7C]">
         <div className="flex items-center gap-[4px]">
           <Calendar size={16} />
@@ -52,9 +62,7 @@ const BlCard = ({
         </div>
         <div className="flex items-center gap-[4px]">
           <Buildings2 size={16} />
-          <p className="font-[600] text-[12px]">
-            {shipper}
-          </p>
+          <p className="font-[600] text-[12px]">{shipper}</p>
         </div>
         <div className="flex items-center gap-[4px]">
           <svg
@@ -70,26 +78,37 @@ const BlCard = ({
             />
           </svg>
 
-          <p className="font-[600] text-[12px]">
-            {destination}
-          </p>
+          <p className="font-[600] text-[12px]">{destination}</p>
         </div>
         <div className="flex items-center gap-[4px]">
           <Box size={16} />
-          <p className="font-[600] text-[12px]">
-            {productsCount} Items
-          </p>
+          <p className="font-[600] text-[12px]">{productsCount} Items</p>
         </div>
       </div>
       <div className="w-full mt-[24px]">
-
+        <Stepper
+          origin={origin}
+          destination={destination}
+          shipmentDate={shipmentDate}
+          receiveDate={receiveDate}
+        />
       </div>
       <div className="w-full mt-[24px] flex items-center justify-between gap-[8px]">
-        <p className="font-[600] text-[16px] text-[#7C7C7C]">{getTimeProgressPercentage(shipmentDate , receiveDate)}% completed</p>
+        <p className="font-[600] text-[16px] text-[#7C7C7C]">
+          {getTimeProgressPercentage(shipmentDate, receiveDate)}% completed
+        </p>
         <div className="flex items-center gap-[16px]">
-            <DocumentDownload size={24} color="#6B7BFF"/>
-            <Edit size={24} color="#6B7BFF" onClick={()=> redirect(`/dashboard/bl/edit/${id}`)}/>
-            <Eye size={24} color="#6B7BFF" onClick={()=> redirect(`/dashboard/bl/edit/${id}`)}/>
+          <DocumentDownload size={24} color="#6B7BFF" />
+          <Edit
+            size={24}
+            color="#6B7BFF"
+            onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
+          />
+          <Eye
+            size={24}
+            color="#6B7BFF"
+            onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
+          />
         </div>
       </div>
     </div>
@@ -98,11 +117,68 @@ const BlCard = ({
 
 export default BlCard;
 
+const Stepper = ({ origin, shipmentDate, destination, receiveDate }) => {
+  const percent = getTimeProgressPercentage(shipmentDate, receiveDate);
 
-const Stepper = ({origin , shipmentDate, destination , receiveDate})=>{
-    return (
-        <div className="w-full relative">
-            
+  const isReceived = percent > 99;
+
+  return (
+    <div className="w-full pt-[36px] px-[56px] pb-[60px] relative">
+      <div className="w-full h-[2px] bg-[#7C7C7C] flex items-center justify-between relative">
+        <div className="size-[20px] rounded-full p-[2px] border border-[#38B000] relative left-[-16px]">
+          <div className={`size-full rounded-full bg-[#38B000]`} />
+          <div className="absolute bottom-[-48px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center">
+            <p className="font-[600] text-[12px] text-[#1E1E1E] whitespace-nowrap">
+              {origin}
+            </p>
+            <p className="font-[600] text-[12px] text-[#7C7C7C] whitespace-nowrap">
+              {formatDateToLongString(shipmentDate)}
+            </p>
+          </div>
         </div>
-    )
-}
+
+        <div
+          className={`size-[20px] rounded-full p-[2px] border relative right-[-16px] ${
+            isReceived ? "border-[#38B000]" : "border-transparent"
+          }`}
+        >
+          <div
+            className={`size-full rounded-full ${
+              isReceived ? "bg-[#38B000]" : "bg-[#7C7C7C]"
+            }`}
+          />
+          <div className="absolute bottom-[-48px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center">
+            <p className="font-[600] text-[12px] text-[#1E1E1E] whitespace-nowrap">
+              {destination}
+            </p>
+            <p className="font-[600] text-[12px] text-[#7C7C7C] whitespace-nowrap">
+              {formatDateToLongString(receiveDate)}
+            </p>
+          </div>
+        </div>
+
+        <div
+          style={{ width: `${percent}%` }}
+          className="h-[2px] bg-[#38B000] absolute"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute right-[-12px] top-[-36px]"
+          >
+            <path
+              d="M2 20C2.22717 20.3165 2.52797 20.5729 2.87642 20.7472C3.22488 20.9214 3.6105 21.0082 4 21C4.3895 21.0082 4.77512 20.9214 5.12358 20.7472C5.47203 20.5729 5.77283 20.3165 6 20C6.22717 19.6835 6.52797 19.4271 6.87642 19.2528C7.22488 19.0786 7.6105 18.9918 8 19C8.3895 18.9918 8.77512 19.0786 9.12358 19.2528C9.47203 19.4271 9.77283 19.6835 10 20C10.2272 20.3165 10.528 20.5729 10.8764 20.7472C11.2249 20.9214 11.6105 21.0082 12 21C12.3895 21.0082 12.7751 20.9214 13.1236 20.7472C13.472 20.5729 13.7728 20.3165 14 20C14.2272 19.6835 14.528 19.4271 14.8764 19.2528C15.2249 19.0786 15.6105 18.9918 16 19C16.3895 18.9918 16.7751 19.0786 17.1236 19.2528C17.472 19.4271 17.7728 19.6835 18 20C18.2272 20.3165 18.528 20.5729 18.8764 20.7472C19.2249 20.9214 19.6105 21.0082 20 21C20.3895 21.0082 20.7751 20.9214 21.1236 20.7472C21.472 20.5729 21.7728 20.3165 22 20M4 18L3 13H21L19 17M5 13V7H13L17 13M7 7V3H6"
+              stroke="#1E1E1E"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
