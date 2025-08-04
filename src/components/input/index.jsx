@@ -11,13 +11,14 @@ const Input = ({
   onBlur,
   showCalendarIcon = true,
   showEyeIcon = true,
+  wrapperClass = "",
   ...props
 }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [showPassword , setShowPassword] = useState(false)
 
   return (
-    <div className="w-full flex flex-col gap-[13px]">
+    <div className={`w-full flex flex-col gap-[13px] ${wrapperClass}`}>
       {(icon || label) && (
         <div className="flex items-center gap-[4px]">
           {icon && (
@@ -97,7 +98,7 @@ const Input = ({
           }}
           className={`w-full h-[48px] rounded-[8px] outline-0 border-[2px] border-[#AAAAAA] focus:border-[#2996E8] bg-white disabled:bg-[#F5F6FA] px-[12px] font-[500] text-[#2E353A] placeholder:text-[#AAAAAA] placeholder:text-[12px] placeholder:font-[500] ${
             hasError && !isFocus ? "!border-[#FF0000]" : ""
-          }`}
+          } ${props.className}`}
         />
       </div>
     </div>

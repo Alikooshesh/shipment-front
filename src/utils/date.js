@@ -17,8 +17,19 @@ export function formatDateToLongString(time) {
     const totalDuration = endDate - startDate; // in milliseconds
     const elapsed = now - startDate;
   
-    console.log({totalDuration , elapsed , now , startDate , endDate})
     const percentage = (elapsed / totalDuration) * 100;
     return Math.floor(percentage);
+  }
+  
+
+  export function isSameDay(date1, date2) {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+  
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
   }
   
