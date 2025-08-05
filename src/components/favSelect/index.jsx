@@ -1,42 +1,52 @@
-import { ArchiveAdd, Star1 } from "iconsax-reactjs";
+import { ArchiveAdd, SearchNormal, Star1 } from "iconsax-reactjs";
 import Input from "../input";
 import { useEffect, useState, useRef } from "react";
 import Select from "../select";
 import { createNewFav, deleteFav, getFavList } from "@/services/dashboard/fav";
 
 const FavSelect = ({ favType, onChange, ...props }) => {
-
-    const [newFavInputValue , setNewFavInputValue] = useState("")
+  const [newFavInputValue, setNewFavInputValue] = useState("");
 
   const [selected, setSelected] = useState(null);
   const [favList, setFavList] = useState([]);
+  const [filteredFavList, setFilteredFavList] = useState(favList);
 
   const [isFavListOpen, setIsFavListOpen] = useState(false);
 
   const containerRef = useRef(null);
 
   const fetchFavList = async () => {
-    const favs = await getFavList({favType});
-    if(Array.isArray(favs)){
-        setFavList(favs)
+    const favs = await getFavList({ favType });
+    if (Array.isArray(favs)) {
+      setFavList(favs);
     }
   };
 
-  const addNewFav = async() => {
-    if(!newFavInputValue) return;
-    const fav = await createNewFav({body : {favType , text : newFavInputValue}})
-    if(fav){
-        setFavList([...favList , fav])
-        setNewFavInputValue("")
+  const handleSearch = () => {
+    setFilteredFavList(
+      favList.filter((item) =>
+        item.text.toLowerCase().includes(newFavInputValue.toLowerCase())
+      )
+    );
+  };
+
+  const addNewFav = async () => {
+    if (!newFavInputValue) return;
+    const fav = await createNewFav({
+      body: { favType, text: newFavInputValue },
+    });
+    if (fav) {
+      setFavList([...favList, fav]);
+      setNewFavInputValue("");
     }
   };
   const removeFav = async (id) => {
-    await deleteFav({id});
-    setFavList(favList.filter(item => item.id !== id))
+    await deleteFav({ id });
+    setFavList(favList.filter((item) => item.id !== id));
   };
 
   useEffect(() => {
-    if(!selected) return;
+    if (!selected) return;
     onChange(selected);
   }, [selected]);
 
@@ -45,9 +55,16 @@ const FavSelect = ({ favType, onChange, ...props }) => {
   }, [favType]);
 
   useEffect(() => {
+    setFilteredFavList(favList);
+  }, [favList]);
+
+  useEffect(() => {
     if (!isFavListOpen) return;
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setIsFavListOpen(false);
       }
     };
@@ -61,17 +78,31 @@ const FavSelect = ({ favType, onChange, ...props }) => {
     <div className="w-full relative" ref={containerRef}>
       {isFavListOpen && (
         <div className="w-full max-h-[232px] p-[12px] absolute top-[60px] z-[5] bg-white border-[2px] border-[#2996E8] rounded-[8px]">
-          <div className="w-full flex gap-[8px]">
-            <Input placeholder="Type here to add to your favorites . . ." className="w-full" value={newFavInputValue} onChange={(e)=> setNewFavInputValue(e.target.value)}/>
-            <div
-              className="size-[48px] rounded-[8px] flex items-center justify-center border-[2px] border-[#38B000]"
-              onClick={addNewFav}
-            >
-              <ArchiveAdd size={24} color="#38B000" />
+          <div className="w-full flex gap-[12px]">
+            <Input
+              placeholder="Type here to add to your favorites . . ."
+              className="w-full"
+              value={newFavInputValue}
+              onChange={(e) => setNewFavInputValue(e.target.value)}
+            />
+
+            <div className="flex items-center gap-[8px]">
+            <button
+                className="size-[48px] rounded-[8px] flex items-center justify-center border-[2px] border-[#2996E8]"
+                onClick={handleSearch}
+              >
+                <SearchNormal size={24} color="#2996E8" />
+              </button>
+              <button
+                className="size-[48px] rounded-[8px] flex items-center justify-center border-[2px] border-[#38B000]"
+                onClick={addNewFav}
+              >
+                <ArchiveAdd size={24} color="#38B000" />
+              </button>
             </div>
           </div>
           <div className="w-full max-h-[145px] overflow-y-auto mt-[16px]">
-            {favList.map((item, index) => (
+            {filteredFavList.map((item, index) => (
               <div
                 key={item.id}
                 className={`w-full min-h-[36px] p-[12px] pr-[8px] flex items-center justify-between gap-[4px] rounded-[8px] ${
@@ -87,9 +118,9 @@ const FavSelect = ({ favType, onChange, ...props }) => {
                 </p>
                 <button
                   className="min-w-[45px] max-w-[45px] text-[#FF0000] font-[600] text-[12px]"
-                  onClick={(e)=>{
+                  onClick={(e) => {
                     e.stopPropagation();
-                    removeFav(item.id)
+                    removeFav(item.id);
                   }}
                 >
                   Remove
@@ -102,7 +133,7 @@ const FavSelect = ({ favType, onChange, ...props }) => {
 
       <div className="w-full flex items-center gap-[12px]">
         <Select
-            {...props}
+          {...props}
           options={favList.map((item) => ({
             label: item.text,
             value: item.text,

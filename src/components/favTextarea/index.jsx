@@ -8,7 +8,7 @@ const FavTextarea = ({ favType, onChange, ...props }) => {
 
     const [newFavInputValue , setNewFavInputValue] = useState("")
 
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState("");
   const [favList, setFavList] = useState([]);
 
   const [isFavListOpen, setIsFavListOpen] = useState(false);
