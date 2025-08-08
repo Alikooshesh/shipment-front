@@ -98,16 +98,20 @@ const BlCard = ({
           {getTimeProgressPercentage(shipmentDate, receiveDate)}% completed
         </p>
         <div className="flex items-center gap-[16px]">
+          <a href={`${process.env.NEXT_PUBLIC_BASE_API}/pdf/bl/${process.env.NEXT_PUBLIC_API_KEY}/${id}`}>
           <DocumentDownload size={24} color="#6B7BFF" />
+          </a>
           <Edit
             size={24}
             color="#6B7BFF"
             onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
+            className="cursor-pointer"
           />
           <Eye
             size={24}
             color="#6B7BFF"
             onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
+            className="cursor-pointer"
           />
         </div>
       </div>
