@@ -11,6 +11,16 @@
 }
 
 @font-face {
+  font-family: 'bespoke';
+  src: url('/font/BespokeStencil-Bold.otf') format('truetype');
+  font-weight: 700;
+}
+
+.font-bespoke{
+  font-family: 'bespoke';
+}
+
+@font-face {
   font-family: 'gilory';
   src: url('/font/Gilroy-Black.otf') format('truetype');
   font-weight: 900;
@@ -66,4 +76,5 @@
 
 *{
   font-family: 'gilory';
+  scroll-behavior: smooth;
 }
