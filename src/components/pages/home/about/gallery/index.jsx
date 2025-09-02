@@ -47,6 +47,7 @@ export default function Gallery() {
             activeIndex === i ? "w-full" : "w-[15vw] md:w-[10vw]"
           }`}
           onMouseEnter={() => setActiveIndex(i)}
+          onClick={() => setActiveIndex(i)}
         >
           <img
             src={img.url}
