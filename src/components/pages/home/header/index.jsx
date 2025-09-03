@@ -44,7 +44,7 @@ const Header = () => {
         </div>
 
         <Link href="/login" className="block">
-          <div className="flex items-center gap-[8px] p-[12px] border-1 border-black lg:border-0 lg:bg-[#2E353A]">
+          <div className="flex items-center gap-[8px] p-[12px] border-1 border-black rounded-full lg:border-0 lg:bg-[#2E353A] lg:rounded-[4px]">
             <p className="hidden lg:block text-white font-[700] text-[16px]">
               Log in
             </p>
