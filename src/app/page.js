@@ -5,6 +5,7 @@ import Header from "@/components/pages/home/header";
 import HeroBanner from "@/components/pages/home/heroBanner";
 import Services from "@/components/pages/home/services";
 import Statistics from "@/components/pages/home/statistics";
+import PortsWorldMap from "@/components/pages/home/worldMap";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Statistics/>
       <About/>
       <Services/>
+      <PortsWorldMap/>
       <Contact/>
       <Footer/>
     </div>
