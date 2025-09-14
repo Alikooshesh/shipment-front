@@ -19,7 +19,7 @@ export const createOptions = ({
   }
   
 
-  if (shouldSetToken) {
+  if (shouldSetToken && typeof window !== "undefined") {
     const token = getToken();
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
