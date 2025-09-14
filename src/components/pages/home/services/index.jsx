@@ -6,7 +6,11 @@ const Services = () => {
       </p>
 
       <div className="w-full mt-[26px] lg:mt-[62px] flex flex-col gap-[32px] lg:gap-[64px]">
-        <div className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]">
+        <div
+          className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]"
+          data-aos="fade-up"
+          data-aos-anchor-placement="bottom-bottom"
+        >
           <img
             className="w-1/3 md:w-1/2 object-cover rounded-[4px]"
             src="https://picsum.photos/id/1016/600/400"
@@ -16,7 +20,7 @@ const Services = () => {
               Ocean Freight
             </h3>
             <p className="font-[400] text-[#2E353A] text-[12px] lg:text-[20px]">
-            <b className="font-[600]">KHAREEF MARITIME</b> specializes in
+              <b className="font-[600]">KHAREEF MARITIME</b> specializes in
               seamless and secure ocean freight services across the globe. With
               in-depth knowledge of maritime logistics, we ensure every shipment
               sails smoothly, efficiently, and on time. Our ocean freight
@@ -28,7 +32,11 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]">
+        <div
+          className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]"
+          data-aos="fade-up"
+          data-aos-anchor-placement="top-center"
+        >
           <img
             className="w-1/3 md:w-1/2 object-cover rounded-[4px] order-1"
             src="https://picsum.photos/id/1016/600/400"
@@ -38,7 +46,7 @@ const Services = () => {
               Ocean Freight
             </h3>
             <p className="font-[400] text-[#2E353A] text-[12px] lg:text-[20px]">
-            <b className="font-[600]">KHAREEF MARITIME</b> specializes in
+              <b className="font-[600]">KHAREEF MARITIME</b> specializes in
               seamless and secure ocean freight services across the globe. With
               in-depth knowledge of maritime logistics, we ensure every shipment
               sails smoothly, efficiently, and on time. Our ocean freight
@@ -50,7 +58,11 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]">
+        <div
+          className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]"
+          data-aos="fade-up"
+          data-aos-anchor-placement="bottom-bottom"
+        >
           <img
             className="w-1/3 md:w-1/2 object-cover rounded-[4px]"
             src="https://picsum.photos/id/1016/600/400"
@@ -60,7 +72,7 @@ const Services = () => {
               Ocean Freight
             </h3>
             <p className="font-[400] text-[#2E353A] text-[12px] lg:text-[20px]">
-            <b className="font-[600]">KHAREEF MARITIME</b> specializes in
+              <b className="font-[600]">KHAREEF MARITIME</b> specializes in
               seamless and secure ocean freight services across the globe. With
               in-depth knowledge of maritime logistics, we ensure every shipment
               sails smoothly, efficiently, and on time. Our ocean freight
@@ -72,7 +84,11 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]">
+        <div
+          className="w-full px-[16px] lg:px-[42px] h-fit flex items-stretch gap-[8px] lg:gap-[24px]"
+          data-aos="fade-up"
+          data-aos-anchor-placement="top-center"
+        >
           <img
             className="w-1/3 md:w-1/2 object-cover rounded-[4px] order-1"
             src="https://picsum.photos/id/1016/600/400"
@@ -82,7 +98,7 @@ const Services = () => {
               Ocean Freight
             </h3>
             <p className="font-[400] text-[#2E353A] text-[12px] lg:text-[20px]">
-            <b className="font-[600]">KHAREEF MARITIME</b> specializes in
+              <b className="font-[600]">KHAREEF MARITIME</b> specializes in
               seamless and secure ocean freight services across the globe. With
               in-depth knowledge of maritime logistics, we ensure every shipment
               sails smoothly, efficiently, and on time. Our ocean freight

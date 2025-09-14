@@ -1,3 +1,4 @@
+import Aos from "@/components/aos";
 import About from "@/components/pages/home/about";
 import Contact from "@/components/pages/home/contact";
 import Footer from "@/components/pages/home/footer";
@@ -9,6 +10,8 @@ import PortsWorldMap from "@/components/pages/home/worldMap";
 
 export default function Home() {
   return (
+    <>
+    <Aos/>
     <div className="w-full bg-[#F5F6FA]">
       <Header/>
       <HeroBanner/>
@@ -19,5 +22,6 @@ export default function Home() {
       <Contact/>
       <Footer/>
     </div>
+    </>
   );
 }
