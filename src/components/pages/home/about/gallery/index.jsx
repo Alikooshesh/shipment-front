@@ -55,7 +55,13 @@ export default function Gallery() {
             className="w-full h-full object-cover rounded-[4px]"
           />
 
-          <div className={`absolute text-white font-bold transition-all duration-1000 ease-in-out ${activeIndex === i ? "left-[8px] lg:left-[16px] bottom-[8px] lg:bottom-[24px]" : "left-[12px] lg:left-[24px] bottom-[-24px] lg:bottom-[-42px]"}`}>
+          <div className={`w-full h-[60px] lg:h-full rounded-[4px] absolute z-10 bottom-0 left-0 bg-[linear-gradient(360deg,rgba(0,0,0,0.7)_77.71%,rgba(38,38,38,0)_94.79%)] lg:bg-black transition-opacity duration-500 ${
+            activeIndex === i 
+              ? "opacity-100 lg:opacity-70"
+              : "opacity-0"
+          }`}/>
+
+          <div className={`absolute text-white font-bold transition-all duration-1000 ease-in-out z-20 ${activeIndex === i ? "left-[8px] lg:left-[16px] bottom-[8px] lg:bottom-[24px]" : "left-[12px] lg:left-[24px] bottom-[-24px] lg:bottom-[-42px]"}`}>
             <div
               className={`text-lg lg:text-2xl origin-left transition-transform duration-700 ease-in-out whitespace-nowrap ${activeIndex === i ? "text-[12px] lg:text-[32px]" : "text-[8px] lg:text-[20px] -rotate-90"}`}
             >
