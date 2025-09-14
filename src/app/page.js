@@ -6,6 +6,7 @@ import Header from "@/components/pages/home/header";
 import HeroBanner from "@/components/pages/home/heroBanner";
 import Services from "@/components/pages/home/services";
 import Statistics from "@/components/pages/home/statistics";
+import Tracking from "@/components/pages/home/tracking";
 import PortsWorldMap from "@/components/pages/home/worldMap";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <HeroBanner/>
       <Statistics/>
       <About/>
+      <Tracking/>
       <Services/>
       <PortsWorldMap/>
       <Contact/>
