@@ -7,7 +7,10 @@ export default function Gallery() {
 
   const images = [
     {
-      url: "https://picsum.photos/id/1015/600/400",
+      url: {
+        desktop : "/images/home/about/desktop/3.png",
+        mobile : "/images/home/about/mobile/3.png"
+      },
       label: {
         top: {
           normal: "Bridging Air &",
@@ -17,7 +20,10 @@ export default function Gallery() {
       },
     },
     {
-      url: "https://picsum.photos/id/1016/600/400",
+      url: {
+        desktop : "/images/home/about/desktop/2.png",
+        mobile : "/images/home/about/mobile/2.png"
+      },
       label: {
         top: {
           normal: "Bridging Air &",
@@ -27,7 +33,10 @@ export default function Gallery() {
       },
     },
     {
-      url: "https://picsum.photos/id/1018/600/400",
+      url: {
+        desktop : "/images/home/about/desktop/1.png",
+        mobile : "/images/home/about/mobile/1.png"
+      },
       label: {
         top: {
           normal: "Bridging Air &",
@@ -50,14 +59,19 @@ export default function Gallery() {
           onClick={() => setActiveIndex(i)}
         >
           <img
-            src={img.url}
+            src={img.url.mobile}
             alt={`Gallery ${i}`}
-            className="w-full h-full object-cover rounded-[4px]"
+            className="w-full h-full object-cover rounded-[4px] lg:hidden"
+          />
+          <img
+            src={img.url.desktop}
+            alt={`Gallery ${i}`}
+            className="w-full h-full object-cover rounded-[4px] hidden lg:block"
           />
 
           <div className={`w-full h-[60px] lg:h-full rounded-[4px] absolute z-10 bottom-0 left-0 bg-[linear-gradient(360deg,rgba(0,0,0,0.7)_77.71%,rgba(38,38,38,0)_94.79%)] lg:bg-black transition-opacity duration-500 ${
             activeIndex === i 
-              ? "opacity-100 lg:opacity-70"
+              ? "opacity-100 lg:opacity-0"
               : "opacity-0"
           }`}/>
 
