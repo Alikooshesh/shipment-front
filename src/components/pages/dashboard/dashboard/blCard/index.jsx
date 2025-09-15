@@ -41,7 +41,7 @@ const BlCard = ({
 
   return (
     <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] border-[#2996E8] rounded-[12px] bg-[#FFFFFF] relative overflow-hidden">
-      <div className="absolute right-[8px] top-[12px]">
+      <div>
         <p className="font-[700] text-[20px] text-[#1E1E1E]">{vesselName}</p>
         <div className="mt-[4px] flex items-center gap-[8px]">
           <p className="text-[16px] font-[600] text-[#7C7C7C]">{blNumber}</p>
@@ -52,7 +52,7 @@ const BlCard = ({
           />
         </div>
       </div>
-      <div className="flex flex-col gap-[8px] text-[#7C7C7C]">
+      <div className="mt-[8px] flex flex-col gap-[8px] text-[#7C7C7C]">
         <div className="flex items-center gap-[4px]">
           <Calendar size={16} />
           <p className="font-[600] text-[12px]">
