@@ -43,16 +43,16 @@ const BlCard = ({
   }, 0);
 
   return (
-    <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] border-[#2996E8] rounded-[12px] bg-[#FFFFFF] relative overflow-hidden">
+    <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] rounded-[12px] bg-[#FFFFFF] relative overflow-hidden shadow-[0px_4px_4px_0px_#00000040] md:shadow-none">
       <div>
+        <div className="w-full flex items-center justify-between">
         <p className="font-[700] text-[20px] text-[#1E1E1E]">{vesselName}</p>
+        <p className="font-[600] text-[16px] text-[#38B000]">
+          {getTimeProgressPercentage(shipmentDate, receiveDate)}% completed
+        </p>
+        </div>
         <div className="mt-[4px] flex items-center gap-[8px]">
           <p className="text-[16px] font-[600] text-[#7C7C7C]">{blNumber}</p>
-          <Copy
-            size={24}
-            color="#6B7BFF"
-            onClick={() => copyToClipboard(blNumber)}
-          />
         </div>
       </div>
       <div className="mt-[8px] flex flex-col gap-[8px] text-[#7C7C7C]">
@@ -95,28 +95,6 @@ const BlCard = ({
           shipmentDate={shipmentDate}
           receiveDate={receiveDate}
         />
-      </div>
-      <div className="w-full mt-[24px] flex items-center justify-between gap-[8px]">
-        <p className="font-[600] text-[16px] text-[#7C7C7C]">
-          {getTimeProgressPercentage(shipmentDate, receiveDate)}% completed
-        </p>
-        <div className="flex items-center gap-[16px]">
-          <a href={`${process.env.NEXT_PUBLIC_BASE_API}/pdf/bl/${process.env.NEXT_PUBLIC_API_KEY}/${id}`} target="_blank">
-          <DocumentDownload size={24} color="#6B7BFF" />
-          </a>
-          <Edit
-            size={24}
-            color="#6B7BFF"
-            onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
-            className="cursor-pointer"
-          />
-          <Eye
-            size={24}
-            color="#6B7BFF"
-            onClick={() => redirect(`/dashboard/bl/edit/${id}`)}
-            className="cursor-pointer"
-          />
-        </div>
       </div>
     </div>
   );

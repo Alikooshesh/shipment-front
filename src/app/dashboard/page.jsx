@@ -79,6 +79,7 @@ const DashboardPage = () => {
             />
             <input
               type="date"
+              defaultValue={new Date().toISOString().split("T")[0]}
               onChange={(e)=> setDateFilter(e.target.value)}
               className="w-[188px] h-[48px] pl-[44px] pr-[12px] text-[#2996E8] border-[2px] border-[#2996E8] rounded-[8px] font-[600] text-[16px]"
             />
@@ -90,12 +91,12 @@ const DashboardPage = () => {
           </div>
 
           <Link className="block w-[173px]" href={"/dashboard/bl/add"}>
-          <Button icon={<FolderAdd size={24}/>} leftIcon>
+          <Button icon={<FolderAdd size={24} className="hidden sm:block"/>} leftIcon>
             Add new B\L
           </Button>
           </Link>
       </div>
-      <div className="w-screen h-[54px] md:h-[64px] mt-[24px] flex items-center justify-center gap-[18px] md:gap-[128px] bg-white border-y-[1px] border-[#2996E8]">
+      <div className="w-full h-[54px] md:h-[64px] mt-[24px] flex items-center justify-center gap-[18px] md:gap-[128px] bg-white border-y-[1px] border-[#2996E8]">
         <button
           onClick={() => setFilterControl("In-Transit")}
           className={`font-[600] text-[16px] md:text-[20px] ${
@@ -114,7 +115,7 @@ const DashboardPage = () => {
           Completed
         </button>
       </div>
-      <div className="w-full p-[16px] md:py-[32px] md:px-[64px] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center justify-center gap-[16px] md:gap-[34px]">
+      <div className="w-full max-w-screen p-[16px] md:py-[32px] md:px-[64px] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center justify-center gap-[16px] md:gap-[34px]">
         {blList
           .filter((item) => {
             const now = new Date();
