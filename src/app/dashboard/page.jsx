@@ -30,7 +30,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="hidden w-full xl:flex items-center justify-between px-[44px] py-[24px]">
+      <div className="hidden w-full lg:flex items-center justify-between px-[44px] py-[24px] gap-[12px]">
         <div className="flex items-center gap-[24px]">
           <div className="relative">
             <Calendar
@@ -71,7 +71,7 @@ const DashboardPage = () => {
           </div>
         )}
       </div>
-      <div className="w-full px-[16px] pt-[42px] flex items-center gap-[12px] xl:hidden">
+      <div className="w-full px-[16px] pt-[42px] flex items-center gap-[12px] lg:hidden">
       <div className="relative">
             <Calendar
               size={24}

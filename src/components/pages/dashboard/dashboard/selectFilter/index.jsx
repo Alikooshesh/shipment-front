@@ -52,6 +52,8 @@ export default function SelectFilter({ setFilter }) {
         setFilter(`filterKey=${filterKey.value}&filterValue=${filterValue}`);
       }, 700);
       return () => clearTimeout(handler);
+    }else{
+      setFilter(null)
     }
   }, [filterKey, filterValue]);
 
