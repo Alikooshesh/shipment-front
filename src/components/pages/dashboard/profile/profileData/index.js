@@ -50,7 +50,7 @@ const ProfileData = ()=>{
         <>
             <div className="w-full flex flex-col gap-[36px] py-[48px] sm:py-[36px]">
                 <div className="w-[128px] h-[128px] mx-auto">
-                <ProfileInput profile={profileImage || profileImageUrl} setProfile={setProfileImage} setProfileImageUrl={setProfileImageUrl}/>
+                <ProfileInput profile={profileImage || profileImageUrl} disabled={!isEditMode} setProfile={setProfileImage} setProfileImageUrl={setProfileImageUrl}/>
                 </div>
 
                 <form className="w-full max-w-[378px] mx-auto px-[16px] flex flex-col gap-[24px] mt-[36px]" onSubmit={onSubmit}>

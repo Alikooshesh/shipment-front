@@ -19,6 +19,9 @@ export const getProfile = async () => {
 };
 
 export const updateProfile = async ({body}) => {
+    if(!body.password){
+      delete body.password
+    }
     const response = await fetch(
       createUrl("/users/me"),
       createOptions({
