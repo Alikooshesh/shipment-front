@@ -1,9 +1,9 @@
 import HeroBanner from "@/components/pages/tracking/heroBanner";
 import Header from "@/components/pages/tracking/header";
-import { getOneBlData } from "@/services/dashboard/bl";
 import BlCard from "@/components/pages/tracking/blCard";
 import Link from "next/link";
 import { Home2 } from "iconsax-reactjs";
+import { getAllBl } from "@/services/dashboard/bl";
 
 export default async function TrackingPage({ searchParams }) {
   const code = searchParams.code;
@@ -15,7 +15,8 @@ console.log({code})
   let data;
   let error;
   try {
-    data = await getOneBlData({id : code});
+    data = await getAllBl({filter : `filterKey=blNumber&filterValue=${code}`});
+    data = data[0]
   } catch (err) {
     error = err
     console.log(err)

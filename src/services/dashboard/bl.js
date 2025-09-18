@@ -3,7 +3,6 @@ import { createOptions, createUrl } from "@/utils/fetch";
 import { toastError } from "@/utils/toast";
 
 export const getAllBl = async ({filter,date} = {}) => {
-  console.log({date})
   let url = "/records/bl";
   if(filter){
     url = url + "?" + filter
