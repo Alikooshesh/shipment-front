@@ -15,7 +15,7 @@ const DashboardPage = () => {
 
   const [filterControl, setFilterControl] = useState("In-Transit");
 
-  const [dateFilter , setDateFilter] = useState(null)
+  const [dateFilter , setDateFilter] = useState(new Date().toISOString().split("T")[0])
 
   const [filter , setFilter] = useState(null)
 
@@ -40,6 +40,7 @@ const DashboardPage = () => {
             />
             <input
               type="date"
+              defaultValue={new Date().toISOString().split("T")[0]}
               onChange={(e)=> setDateFilter(e.target.value)}
               className="w-[188px] h-[54px] pl-[44px] pr-[12px] text-[#2996E8] border-[2px] border-[#2996E8] rounded-[8px] font-[600] text-[16px]"
             />
