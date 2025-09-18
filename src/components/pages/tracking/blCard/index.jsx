@@ -43,7 +43,7 @@ const BlCard = ({
   }, 0);
 
   return (
-    <div className="w-full px-[8px] pt-[12px] pb-[16px] border-[2px] rounded-[12px] bg-[#FFFFFF] relative overflow-hidden shadow-[0px_4px_4px_0px_#00000040] md:shadow-none">
+    <div className="w-full px-[8px] pt-[12px] pb-[16px]  rounded-[12px] bg-[#FFFFFF] relative overflow-hidden shadow-[0px_4px_4px_0px_#00000040] md:shadow-none">
       <div>
         <div className="w-full flex items-center justify-between">
         <p className="font-[700] text-[20px] text-[#1E1E1E]">{vesselName}</p>
