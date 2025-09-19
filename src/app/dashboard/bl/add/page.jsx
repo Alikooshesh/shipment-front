@@ -425,7 +425,7 @@ const AddBlPage = () => {
           <Button
             leftIcon
             icon={<TickSquare size={24} />}
-            disabled={!isFormValid}
+            disabled={!isFormValid || (!useDefaultDocuments && !(signatureUrl && stampUrl))}
             onClick={submit}
           >
             Confirm
