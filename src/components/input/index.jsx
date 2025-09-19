@@ -52,7 +52,7 @@ const Input = ({
       <div className="w-full relative">
         {showCalendarIcon && props.type === "date" && (
           <span
-            className={`absolute right-[12px] top-[50%] translate-y-[-50%] bg-white pointer-events-none ${
+            className={`absolute right-[12px] top-[50%] translate-y-[-50%] ${props.disabled ? "" : "bg-white"} pointer-events-none ${
               !isFocus
                 ? !hasError
                   ? "text-[#6B7BFF]"
@@ -66,7 +66,7 @@ const Input = ({
 
         {showEyeIcon && props.type === "password" && (
           <span
-            className={`absolute right-[12px] top-[50%] translate-y-[-50%] bg-white ${
+            className={`absolute right-[12px] top-[50%] translate-y-[-50%] ${props.disabled ? "" : "bg-white"} ${
               !isFocus
                 ? !hasError
                   ? "text-[#AAAAAA]"
